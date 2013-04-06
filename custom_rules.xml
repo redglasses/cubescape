@@ -1,0 +1,12 @@
+<project>
+    <property name="url" value="http://libgdx.badlogicgames.com/nightlies/dist" />
+    <target name="-pre-build">
+        <mkdir dir="libs" />
+        <get src="${url}/gdx-backend-android.jar" dest="libs" />
+        <get src="${url}/gdx.jar" dest="libs" />
+        
+        <mkdir dir="libs/armeabi-v7a" />
+        <get src="${url}/armeabi-v7a/libandroidgl20.so" dest="libs/armeabi-v7a" />
+        <get src="${url}/armeabi-v7a/libgdx.so" dest="libs/armeabi-v7a" />
+    </target>
+</project>
