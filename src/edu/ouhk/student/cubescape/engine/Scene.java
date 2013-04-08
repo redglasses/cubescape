@@ -10,7 +10,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 import edu.ouhk.student.cubescape.engine.renderer.GLES20;
 
-public abstract class Sense implements Renderer.RenderingListener {
+public abstract class Scene implements Renderer.RenderingListener {
 	public static final float ANGLE_OF_VIEW = 67f;
 	
 	protected LinkedList<Renderer.Renderable> objects;
@@ -19,7 +19,7 @@ public abstract class Sense implements Renderer.RenderingListener {
 	
 	public Color backgroundColor;
 
-	public Sense(Character character) {
+	public Scene(Character character) {
 		this.character = character;
 		this.objects = new LinkedList<Renderer.Renderable>();
 		this.objects.add(this.character);
@@ -27,7 +27,7 @@ public abstract class Sense implements Renderer.RenderingListener {
 		this.backgroundColor = new Color(1f, 1f, 1f, 1f);
 	}
 	
-	public Sense(Character character, Renderer.Renderable ...object) {
+	public Scene(Character character, Renderer.Renderable ...object) {
 		this(character);
 		
 		for(Renderer.Renderable o : object)

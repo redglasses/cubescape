@@ -1,10 +1,10 @@
 package edu.ouhk.student.cubescape.engine.sense;
 
 import edu.ouhk.student.cubescape.engine.Character;
-import edu.ouhk.student.cubescape.engine.Sense;
+import edu.ouhk.student.cubescape.engine.Scene;
 import edu.ouhk.student.cubescape.engine.object.*;
 
-public class SampleSense extends Sense {
+public class SampleSense extends Scene {
 	public SampleSense(Character character) {
 		super(character);
 		
