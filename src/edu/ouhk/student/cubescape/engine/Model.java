@@ -41,10 +41,11 @@ public class Model {
 			frameChangeListeners = new LinkedList<FrameChangeListener>();
 		}
 		this.model = model;
-		this.model.getBoundingBox(this.box);
 	}
 	
 	public Vector3 getCenter() {
+		if(this.box==null)
+			this.model.getBoundingBox(this.box);
 		return this.box.getCenter();
 	}
 	
