@@ -46,7 +46,6 @@ public class SampleGameActivity extends AndroidApplication {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
-		getMenuInflater().inflate(R.menu.game_option_menu, menu);
 		return super.onCreateOptionsMenu(menu);
 	}
 	
