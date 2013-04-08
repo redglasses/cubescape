@@ -43,10 +43,10 @@ public class Model {
 		this.model = model;
 	}
 	
-	public Vector3 getCenter() {
+	public BoundingBox getBoundingBox() {
 		if(this.box==null)
 			this.model.getBoundingBox(this.box);
-		return this.box.getCenter();
+		return this.box;
 	}
 	
 	public void addFrameChangeListener(FrameChangeListener object) {

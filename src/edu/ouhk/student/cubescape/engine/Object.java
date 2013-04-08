@@ -68,7 +68,7 @@ public abstract class Object implements Renderer.Renderable {
 	}
 	
 	public Sphere getSphere() {
-		return new Sphere(this.model.getCenter().add(this.position), radius);
+		return new Sphere(this.model.getBoundingBox().getCenter().add(this.position), radius);
 	}
 	
 	@Override
