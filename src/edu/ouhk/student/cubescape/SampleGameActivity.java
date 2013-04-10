@@ -12,7 +12,7 @@ import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Scene;
 import edu.ouhk.student.cubescape.engine.character.*;
 import edu.ouhk.student.cubescape.engine.renderer.GLES20;
-import edu.ouhk.student.cubescape.engine.sense.*;
+import edu.ouhk.student.cubescape.engine.scene.*;
 
 public class SampleGameActivity extends AndroidApplication {
 	private static AndroidApplicationConfiguration cfg;
@@ -40,7 +40,7 @@ public class SampleGameActivity extends AndroidApplication {
 			}
 		};
 		
-		game = new SampleSense(character);
+		game = new SampleScene(character);
 		initialize(new GLES20(game), cfg);
 	}
 	
