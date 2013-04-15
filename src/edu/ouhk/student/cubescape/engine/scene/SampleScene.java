@@ -15,9 +15,6 @@ public class SampleScene extends Scene {
 		c.position.y = character.position.y;
 		c.position.z = character.position.z - 10f;
 		addObjects(c);
-		o.scale.x = o.scale.y = o.scale.z = .005f;
-		o.position.x = 20f;
-		addObjects(o);
 	}
 	
 	@Override
