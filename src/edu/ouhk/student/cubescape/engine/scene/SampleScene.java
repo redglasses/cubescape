@@ -9,7 +9,6 @@ public class SampleScene extends Scene {
 		super(character);
 		
 		Crate o = new Crate();
-		Circle c = new Circle();
 		c.scale.x = c.scale.y = c.scale.z = 0.001f;
 		c.position.x = character.position.x;
 		c.position.y = character.position.y;
