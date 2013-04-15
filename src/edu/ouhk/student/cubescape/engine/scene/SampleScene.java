@@ -9,11 +9,8 @@ public class SampleScene extends Scene {
 		super(character);
 		
 		Crate o = new Crate();
-		c.scale.x = c.scale.y = c.scale.z = 0.001f;
-		c.position.x = character.position.x;
-		c.position.y = character.position.y;
-		c.position.z = character.position.z - 10f;
-		addObjects(c);
+		o.scale.x = o.scale.y = o.scale.z = .02f;
+		addObjects(o);
 	}
 	
 	@Override
