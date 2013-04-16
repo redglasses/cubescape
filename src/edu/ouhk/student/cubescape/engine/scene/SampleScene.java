@@ -8,14 +8,18 @@ public class SampleScene extends Scene {
 	public SampleScene(Character character) {
 		super(character);
 		
-		Crate o = new Crate();
-		o.scale.x = o.scale.y = o.scale.z = .02f;
-		addObjects(o);
+		
 	}
 	
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		Crate o = new Crate();
+		o.scale.x = o.scale.y = o.scale.z = .002f;
+		o.position.y = 1;
+		addObjects(o);
+		
+		
 	}
 
 	@Override

@@ -5,7 +5,11 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 		UP,
 		DOWN,
 		LEFT,
-		RIGHT
+		RIGHT,
+		UP_LEFT,
+		UP_RIGHT,
+		DOWN_LEFT,
+		DOWN_RIGHT,
 	}
 
 	protected Model.Animation jumpMotion;
@@ -14,16 +18,23 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 	
 	protected boolean isMoving = false;
 	protected float movingStep = 4f;
+	protected float movingStep45 = (float)Math.sqrt((movingStep*movingStep)*2);
 	protected Direction direction;
-
+	protected float setMovingStep(float step){
+		movingStep = step;
+		movingStep45 = (float)Math.sqrt((movingStep*movingStep)*2);
+		return movingStep;
+	}
 	protected Character(int modelId, int textureId) {
 		super(modelId, textureId);
+		
 	}
 	
 	@Override
 	public void create() {
 		super.create();
 		model.addFrameChangeListener(this);
+		
 	}
 
 	public boolean isMoving() {
@@ -31,15 +42,12 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 	}
 	
 	public void move(Character.Direction direction) {	
+		isMoving = true;
 		if(this.direction != direction) {
 			if(!this.onDirectionChange(this.direction, direction))
 				this.direction = direction;
 		}
-		
-		if(!isMoving)
-			model.playAnimtion(runMotion);
-		
-		isMoving = true;
+
 	}
 	
 	public void stand() {
@@ -56,16 +64,32 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 		if(isMoving){
 			switch(direction) {
 			case UP:
-				position.y += movingStep;
+				position.z += movingStep;
 				break;
 			case DOWN:
-				position.y -= movingStep;
+				position.z -= movingStep;
 				break;
 			case RIGHT:
 				position.x += movingStep;
 				break;
 			case LEFT:
 				position.x -= movingStep;
+				break;
+			case UP_LEFT:
+				position.z += movingStep45;
+				position.x -= movingStep45;
+				break;
+			case UP_RIGHT:
+				position.z += movingStep45;
+				position.x += movingStep45;
+				break;
+			case DOWN_LEFT:
+				position.z -= movingStep45;
+				position.x -= movingStep45;
+				break;
+			case DOWN_RIGHT:
+				position.z -= movingStep45;
+				position.x += movingStep45;
 				break;
 			}
 			onMoved();

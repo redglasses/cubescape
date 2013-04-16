@@ -15,6 +15,7 @@ import edu.ouhk.student.cubescape.engine.renderer.GLES20;
 import edu.ouhk.student.cubescape.engine.scene.*;
 
 public class SampleGameActivity extends AndroidApplication {
+	private float firstTouchX, firstTouchY;
 	private static AndroidApplicationConfiguration cfg;
 	static {
 		cfg = new AndroidApplicationConfiguration();
@@ -26,17 +27,20 @@ public class SampleGameActivity extends AndroidApplication {
 
 	private Character character;
 	private Scene game;
-	
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-
-		character = new Ogro(){
+		
+		character = new ValkyrieVF1A(){
 			@Override
 			public void create() {
 				super.create();
 				movingStep = 2f;
-				position.z = -50f;
+				this.rotation.y = 180;
+				//this.move(Direction.LEFT);
+				this.stand();
+				
 			}
 		};
 		
@@ -83,6 +87,7 @@ public class SampleGameActivity extends AndroidApplication {
 		case KeyEvent.KEYCODE_DPAD_UP:
 		case KeyEvent.KEYCODE_S:
 		case KeyEvent.KEYCODE_DPAD_DOWN:
+			
 			character.stand();
 			break;
 		}
@@ -91,6 +96,37 @@ public class SampleGameActivity extends AndroidApplication {
 	
 	@Override
 	public boolean onTouchEvent(MotionEvent event) {
+		//firstTouchX = event.getAxisValue(MotionEvent.AXIS_X);
+		//firstTouchY = event.getAxisValue(MotionEvent.AXIS_Y);
+		float angle = event.getOrientation(event.getPointerId(event.getPointerCount()));
+		int orientation = (int)Math.round(angle/Math.PI*4);
+		switch (orientation){
+			case 0:
+				character.move(Character.Direction.UP);
+				break;
+			case 1:
+				character.move(Character.Direction.UP_RIGHT);
+				break;
+			case 2:
+				character.move(Character.Direction.RIGHT);
+				break;
+			case 3:
+				character.move(Character.Direction.DOWN_RIGHT);
+				break;
+			case 4:
+			case -4:
+				character.move(Character.Direction.DOWN);
+				break;
+			case -3:
+				character.move(Character.Direction.DOWN_LEFT);
+				break;
+			case -2:
+				character.move(Character.Direction.LEFT);
+				break;
+			case -1:
+				character.move(Character.Direction.UP_LEFT);
+				break;
+		}
 		return super.onTouchEvent(event);
 	}
 }

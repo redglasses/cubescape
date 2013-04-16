@@ -23,6 +23,7 @@
         android:theme="@style/AppTheme" >
 		<activity android:name=".SampleGameActivity" android:enabled="true" android:screenOrientation="sensor">
 			<intent-filter>
+				<action android:name="android.intent.action.RUN"/>
 
 			</intent-filter>
 		</activity>

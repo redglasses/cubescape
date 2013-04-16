@@ -16,28 +16,35 @@ public abstract class Scene implements Renderer.RenderingListener {
 	protected LinkedList<Renderer.Renderable> objects;
 	protected Camera camera;
 	protected Character character;
-	
+	private Renderer.Renderable[] bufferRenderable = null;
 	public Color backgroundColor;
 
 	public Scene(Character character) {
 		this.character = character;
 		this.objects = new LinkedList<Renderer.Renderable>();
-		this.objects.add(this.character);
+		
+		
 		
 		this.backgroundColor = new Color(1f, 1f, 1f, 1f);
 	}
 	
 	public Scene(Character character, Renderer.Renderable ...object) {
 		this(character);
+		bufferRenderable = object;
 		
-		for(Renderer.Renderable o : object)
-			this.objects.add(o);
 	}
 	
 	public void addObjects(Renderer.Renderable ...object) {
-		for(Renderer.Renderable o : object)
+		for(Renderer.Renderable o : object){
 			this.objects.add(o);
+			o.create();
+		}
+			
+		
 	}
+
+			
+
 	
 	public LinkedList<Renderer.Renderable> getObjects() {
 		return this.objects;
@@ -46,12 +53,14 @@ public abstract class Scene implements Renderer.RenderingListener {
 	@Override
 	public void onCreate() {
 		this.camera = new PerspectiveCamera(ANGLE_OF_VIEW, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		this.camera.translate(0, 0, 50);
+		this.camera.translate(0, 500, 0);
+		this.camera.rotate(-90, 1, 0, 0);
 		this.camera.far = 1000f;
 		this.camera.near = 1f;
-		
-		for(Renderer.Renderable o : objects)
-			o.create();
+		addObjects(this.character);
+		if (bufferRenderable != null){
+			addObjects(bufferRenderable);
+		}
 	}
 	
 	@Override
