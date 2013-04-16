@@ -20,6 +20,9 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 	protected float movingStep = 4f;
 	protected float movingStep45 = (float)Math.sqrt((movingStep*movingStep)*2);
 	protected Direction direction;
+	
+	
+	
 	protected float setMovingStep(float step){
 		movingStep = step;
 		movingStep45 = (float)Math.sqrt((movingStep*movingStep)*2);
