@@ -5,6 +5,7 @@ import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Model;
 
 public class ValkyrieVF1A extends Character {
+	
 	public ValkyrieVF1A() {
 		super(R.raw.model_valkyrievf1a,R.drawable.texture_vf1a_hikaru);
 		

@@ -53,8 +53,7 @@ public abstract class Scene implements Renderer.RenderingListener {
 	@Override
 	public void onCreate() {
 		this.camera = new PerspectiveCamera(ANGLE_OF_VIEW, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-		this.camera.translate(0, 500, 0);
-		this.camera.rotate(-90, 1, 0, 0);
+		
 		this.camera.far = 1000f;
 		this.camera.near = 1f;
 		addObjects(this.character);
