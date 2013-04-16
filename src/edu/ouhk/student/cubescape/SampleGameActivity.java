@@ -16,14 +16,6 @@ import edu.ouhk.student.cubescape.engine.scene.*;
 
 public class SampleGameActivity extends AndroidApplication {
 	private float firstTouchX, firstTouchY;
-	private static AndroidApplicationConfiguration cfg;
-	static {
-		cfg = new AndroidApplicationConfiguration();
-		cfg.useWakelock = true;
-		cfg.useGL20 = true;
-		cfg.useAccelerometer = false;
-		cfg.useCompass = false;
-	}
 
 	private Character character;
 	private Scene game;
@@ -45,7 +37,7 @@ public class SampleGameActivity extends AndroidApplication {
 		};
 		
 		game = new SampleScene(character);
-		initialize(new GLES20(game), cfg);
+		initialize(new GLES20(game), Application.GLConfig);
 	}
 	
 	@Override

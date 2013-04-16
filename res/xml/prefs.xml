@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android" >
+    <PreferenceCategory 
+        android:title="@string/pref_audio_title"
+        android:key="pref_key_media_settings">
+	    <CheckBoxPreference
+	        android:key="pref_sound"
+	        android:title="@string/pref_sound_title"
+	        android:summary="@string/pref_sound_decs"
+	        android:defaultValue="true" />
+	    <CheckBoxPreference
+	        android:key="pref_music"
+	        android:title="@string/pref_music_title"
+	        android:summary="@string/pref_music_decs"
+	        android:defaultValue="true" />
+    </PreferenceCategory>
+</PreferenceScreen>

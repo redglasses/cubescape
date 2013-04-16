@@ -1,5 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="app_name">Cubescape</string>
+    <string name="app_version_name">1.0</string>
+	<string name="new_game">New Game</string>
+	<string name="score_board">Score Board</string>
+	<string name="options">Options</string>
+	<string name="about">About Cubescape</string>
+	
+	<string name="game_version">Game version</string>
+	<string name="authors">Authors</string>
+	<string name="authors_name">CHAN Chun Hong, CHENG Kam Kong</string>
+	<string name="about_this_game">About this game:</string>
+	<string name="game_readme">This a classic arcade flight games.
+We create worlds.</string>
 
-    <string name="app_name">cubescape</string>
-
+	<string name="pref_audio_title">Audio</string>
+	<string name="pref_sound_title">Sound effect</string>
+	<string name="pref_sound_decs">Sound effect toggle</string>
+	<string name="pref_music_title">Background music</string>
+	<string name="pref_music_decs">Background music toggle</string>
 </resources>
