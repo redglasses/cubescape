@@ -6,6 +6,7 @@ import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 import edu.ouhk.student.cubescape.engine.character.*;
+import edu.ouhk.student.cubescape.engine.object.*;
 
 public class MainMenuScene extends Scene {
 	public static Character mainChar = new ValkyrieVF1A() {
@@ -26,9 +27,15 @@ public class MainMenuScene extends Scene {
 					"taunt11","taunt12","taunt13","taunt14","taunt15",
 					"taunt16","taunt17"*/
 			}, 12f);
-			position.z = -1f;
+			position.z = -50f;
 			position.y = -5f;
 			stand();
+		}
+		
+		@Override
+		public void onFrameChange() {
+			super.onFrameChange();
+			rotation.y += 1f;
 		}
 	};
 	
@@ -44,6 +51,11 @@ public class MainMenuScene extends Scene {
 	@Override
 	public void onCreate() {
 		super.onCreate();
+		SkyBox o = new SkyBox();
+		o.scale.x = o.scale.y = o.scale.z = .9f;
+		o.position.y = -100f;
+		o.rotation.y = 90f;
+		addObjects(o);
 	}
 	
 	@Override

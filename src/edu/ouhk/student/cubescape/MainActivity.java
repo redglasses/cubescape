@@ -4,21 +4,12 @@ import java.util.LinkedHashMap;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
-import edu.ouhk.student.cubescape.engine.Character;
-import edu.ouhk.student.cubescape.engine.Scene;
-import edu.ouhk.student.cubescape.engine.Character.*;
 import edu.ouhk.student.cubescape.engine.renderer.GLES20;
 import edu.ouhk.student.cubescape.engine.scene.*;
 
-import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.opengl.GLSurfaceView;
 import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
