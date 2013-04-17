@@ -8,8 +8,14 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 	protected boolean isEnemy = false;
 	protected int hitPoint = 1, attack = 0;
 	
+	public boolean isDied(){
+		return hitPoint <= 0;
+	}
 	public boolean setEnemy(boolean isEnemy){
 		this.isEnemy = isEnemy;
+		return this.isEnemy;
+	}
+	public boolean isEnemy(){
 		return this.isEnemy;
 	}
 	public ActiveObject(int modelId) {
@@ -34,18 +40,12 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 	}
 	@Override
 	public void render(ShaderProgram program) {
-		super.dispose();
+		super.render(program);
 	}
 	public void onCollided(Object object){
 		if (object instanceof ActiveObject){
 			this.hitPoint -= ((ActiveObject) object).attack;
 			((ActiveObject) object).hitPoint -= this.attack;
-			if (((ActiveObject) object).hitPoint < 0){
-				((ActiveObject) object).destroy();
-			}
-			if (this.hitPoint < 0){
-				this.destroy();
-			}
 		}
 	
 	}
