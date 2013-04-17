@@ -18,14 +18,11 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 	
 	protected boolean isMoving = false;
 	protected float movingStep = 4f;
-	protected float movingStep45 = (float)Math.sqrt((movingStep*movingStep)*2);
+	protected double movingAngle;
 	protected Direction direction;
-	
-	
 	
 	protected float setMovingStep(float step){
 		movingStep = step;
-		movingStep45 = (float)Math.sqrt((movingStep*movingStep)*2);
 		return movingStep;
 	}
 	protected Character(int modelId, int textureId) {
@@ -44,13 +41,36 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 		return isMoving;
 	}
 	
-	public void move(Character.Direction direction) {	
+	public void move(double angle) {	
 		isMoving = true;
-		if(this.direction != direction) {
-			if(!this.onDirectionChange(this.direction, direction))
-				this.direction = direction;
+		movingAngle = angle;
+		switch ((int)Math.round(angle/Math.PI*4)){
+			case 0:
+				onDirectionChange(Character.Direction.UP);
+				break;
+			case 1:
+				onDirectionChange(Character.Direction.UP_RIGHT);
+				break;
+			case 2:
+				onDirectionChange(Character.Direction.RIGHT);
+				break;
+			case 3:
+				onDirectionChange(Character.Direction.DOWN_RIGHT);
+				break;
+			case 4:
+			case -4:
+				onDirectionChange(Character.Direction.DOWN);
+				break;
+			case -3:
+				onDirectionChange(Character.Direction.DOWN_LEFT);
+				break;
+			case -2:
+				onDirectionChange(Character.Direction.LEFT);
+				break;
+			case -1:
+				onDirectionChange(Character.Direction.UP_LEFT);
+				break;
 		}
-
 	}
 	
 	public void stand() {
@@ -65,36 +85,8 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 	@Override
 	public void onFrameChange() {
 		if(isMoving){
-			switch(direction) {
-			case UP:
-				position.z += movingStep;
-				break;
-			case DOWN:
-				position.z -= movingStep;
-				break;
-			case RIGHT:
-				position.x += movingStep;
-				break;
-			case LEFT:
-				position.x -= movingStep;
-				break;
-			case UP_LEFT:
-				position.z += movingStep45;
-				position.x -= movingStep45;
-				break;
-			case UP_RIGHT:
-				position.z += movingStep45;
-				position.x += movingStep45;
-				break;
-			case DOWN_LEFT:
-				position.z -= movingStep45;
-				position.x -= movingStep45;
-				break;
-			case DOWN_RIGHT:
-				position.z -= movingStep45;
-				position.x += movingStep45;
-				break;
-			}
+			position.x += movingStep * Math.cos(movingAngle);
+			position.z += movingStep * Math.sin(movingAngle);
 			onMoved();
 		}
 	}
@@ -105,5 +97,5 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 	 * @param to
 	 * @return true means handled, false means unhandled.
 	 */
-	public abstract boolean onDirectionChange(Direction from, Direction to);
+	public abstract boolean onDirectionChange(Direction to);
 }
