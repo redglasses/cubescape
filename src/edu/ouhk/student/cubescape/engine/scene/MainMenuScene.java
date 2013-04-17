@@ -1,6 +1,8 @@
 package edu.ouhk.student.cubescape.engine.scene;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Model;
@@ -51,10 +53,19 @@ public class MainMenuScene extends Scene {
 	@Override
 	public void onCreate() {
 		super.onCreate();
-		SkyBox o = new SkyBox();
-		o.scale.x = o.scale.y = o.scale.z = .9f;
-		o.position.y = -100f;
-		o.rotation.y = 90f;
+		UniverseBox o = new UniverseBox(){
+			private float timeInterval = 1 / 12;
+			private float timer = 0;
+			@Override
+			public void render(ShaderProgram program) {
+				super.render(program);
+				timer += Gdx.graphics.getDeltaTime();
+				if(timer>=timeInterval) {
+					rotation.z += .1f;
+					timer = 0;
+				}
+			}
+		};
 		addObjects(o);
 	}
 	
