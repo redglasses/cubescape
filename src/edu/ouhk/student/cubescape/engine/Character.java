@@ -46,29 +46,29 @@ public abstract class Character extends Object implements Model.FrameChangeListe
 		movingAngle = angle;
 		switch ((int)Math.round(angle/Math.PI*4)){
 			case 0:
-				onDirectionChange(Character.Direction.UP);
+				onDirectionChange(Character.Direction.LEFT);
 				break;
 			case 1:
-				onDirectionChange(Character.Direction.UP_RIGHT);
+				onDirectionChange(Character.Direction.UP_LEFT);
 				break;
 			case 2:
-				onDirectionChange(Character.Direction.RIGHT);
+				onDirectionChange(Character.Direction.UP);
 				break;
 			case 3:
-				onDirectionChange(Character.Direction.DOWN_RIGHT);
+				onDirectionChange(Character.Direction.UP_RIGHT);
 				break;
 			case 4:
 			case -4:
-				onDirectionChange(Character.Direction.DOWN);
+				onDirectionChange(Character.Direction.RIGHT);
 				break;
 			case -3:
-				onDirectionChange(Character.Direction.DOWN_LEFT);
+				onDirectionChange(Character.Direction.DOWN_RIGHT);
 				break;
 			case -2:
-				onDirectionChange(Character.Direction.LEFT);
+				onDirectionChange(Character.Direction.DOWN);
 				break;
 			case -1:
-				onDirectionChange(Character.Direction.UP_LEFT);
+				onDirectionChange(Character.Direction.DOWN_LEFT);
 				break;
 		}
 	}
