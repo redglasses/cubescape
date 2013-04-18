@@ -6,12 +6,12 @@ import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 
-public class ValkyrieVF1A extends Character {
-	public float bulletInterval = 0.1f;
-	public long bulletShot = 0;
-	public ValkyrieVF1A() {
+public class Enemy01 extends Character {
+	
+	public Enemy01() {
 		
-		super(R.raw.model_valkyrievf1a,R.drawable.texture_vf1a_hikaru);
+		//super(R.raw.model_valkyrievf1a,R.drawable.texture_vf1a_hikaru);
+		super(R.raw.model_qmech,R.drawable.texture_qmech);
 		
 		this.jumpMotion = new Model.Animation(new String[]{
 			
@@ -25,43 +25,42 @@ public class ValkyrieVF1A extends Character {
 			
 				"taunt08"
 		}, 12f);
-		movingAngle = 180;
+		this.position.x = 0f;
+		this.position.z = -300f;
+		
+		
+		this.setEnemy(true);
 	}
+	
 	public void shoot(Scene scene){
 		for (ActiveObject bullet : generateBullets()){
 			scene.addObjects(bullet);
-			bulletShot++;
 		}
 	
 	}
 	public ActiveObject[] generateBullets(){
-		return new ActiveObject[]{
-			new Bullet01().setPosition(this.position.x - (float)(Math.random()*3+4), this.position.y, this.position.z + 10), new Bullet01().setPosition(this.position.x + (float)(Math.random()*3+4), this.position.y, this.position.z + 10)	
-		};
-		
+		return new ActiveObject[0];
 	}
-	@Override
-	public void onMoved() {
-		
-	}
+
+	
 
 	@Override
 	public boolean onDirectionChange(Direction to) {
 		
 			switch(to){
 				case LEFT:
-					this.rotation.z = 60;
+					this.rotation.z = -60;
 					break;
 				case UP_LEFT:
 				case DOWN_LEFT:
-					this.rotation.z = 30;
+					this.rotation.z = -30;
 					break;
 				case RIGHT:
-					this.rotation.z = -60;
+					this.rotation.z = 60;
 					break;
 				case UP_RIGHT:
 				case DOWN_RIGHT:
-					this.rotation.z = -30;
+					this.rotation.z = 30;
 					break;
 				default:
 					this.rotation.z = 0;
@@ -72,17 +71,14 @@ public class ValkyrieVF1A extends Character {
 		return false;
 	}
 	@Override
-	public void create() {
+	public void create(){
 		super.create();
-		this.movingStep = 10f;
-		this.rotation.y = 180f;
-		//this.move(Direction.LEFT);
 		this.stand();
-		
+		move(Math.random() * Math.PI);
 	}
-	public void stand(){
-		super.stand();
-		this.rotation.z = 0;
+	public void onMoved(){
+		super.onMoved();
+		//this.move(this.movingAngle);
 	}
 
 }

@@ -22,18 +22,9 @@ public class SampleGameActivity extends AndroidApplication implements InputProce
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		
-		character = new ValkyrieVF1A(){
-			@Override
-			public void create() {
-				super.create();
-				movingStep = 2f;
-				this.rotation.y = 180;
-				//this.move(Direction.LEFT);
-				this.stand();
-			}
-		};
+		character = new ValkyrieVF1A();
 		
-		game = new SampleScene(character);
+		game = new GameScene(character);
 		initialize(new GLES20(game), Application.GLConfig);
 		getInput().setInputProcessor(this);
 	}
@@ -83,8 +74,10 @@ public class SampleGameActivity extends AndroidApplication implements InputProce
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+
 		touchedAt = null;
 		character.stand();
 		return true;
 	}
+	
 }

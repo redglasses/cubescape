@@ -16,6 +16,7 @@ public abstract class Scene implements Renderer.RenderingListener {
 	protected LinkedList<Renderer.Renderable> objects;
 	protected Camera camera;
 	protected Character character;
+	
 	private Renderer.Renderable[] bufferRenderable = null;
 	public Color backgroundColor;
 

@@ -36,7 +36,7 @@ public class Ogro extends Character {
 	}
 
 	@Override
-	public boolean onDirectionChange(Direction from, Direction to) {
+	public boolean onDirectionChange( Direction to) {
 		return false;
 	}
 }

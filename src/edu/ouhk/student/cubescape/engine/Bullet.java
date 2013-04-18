@@ -1,6 +1,6 @@
 package edu.ouhk.student.cubescape.engine;
 
-public abstract class Character extends ActiveObject implements Model.FrameChangeListener {	
+public abstract class Bullet extends ActiveObject implements Model.FrameChangeListener {	
 	public enum Direction {
 		UP,
 		DOWN,
@@ -18,14 +18,14 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 	
 	protected boolean isMoving = false;
 	protected float movingStep = 4f;
-	
+	protected double movingAngle;
 	protected Direction direction;
-
+	
 	protected float setMovingStep(float step){
 		movingStep = step;
 		return movingStep;
 	}
-	protected Character(int modelId, int textureId) {
+	protected Bullet(int modelId, int textureId) {
 		super(modelId, textureId);
 		
 	}
@@ -46,29 +46,29 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 		movingAngle = angle;
 		switch ((int)Math.round(angle/Math.PI*4)){
 			case 0:
-				onDirectionChange(Character.Direction.LEFT);
+				onDirectionChange(Bullet.Direction.LEFT);
 				break;
 			case 1:
-				onDirectionChange(Character.Direction.UP_LEFT);
+				onDirectionChange(Bullet.Direction.UP_LEFT);
 				break;
 			case 2:
-				onDirectionChange(Character.Direction.UP);
+				onDirectionChange(Bullet.Direction.UP);
 				break;
 			case 3:
-				onDirectionChange(Character.Direction.UP_RIGHT);
+				onDirectionChange(Bullet.Direction.UP_RIGHT);
 				break;
 			case 4:
 			case -4:
-				onDirectionChange(Character.Direction.RIGHT);
+				onDirectionChange(Bullet.Direction.RIGHT);
 				break;
 			case -3:
-				onDirectionChange(Character.Direction.DOWN_RIGHT);
+				onDirectionChange(Bullet.Direction.DOWN_RIGHT);
 				break;
 			case -2:
-				onDirectionChange(Character.Direction.DOWN);
+				onDirectionChange(Bullet.Direction.DOWN);
 				break;
 			case -1:
-				onDirectionChange(Character.Direction.DOWN_LEFT);
+				onDirectionChange(Bullet.Direction.DOWN_LEFT);
 				break;
 		}
 	}
@@ -91,7 +91,7 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 		}
 	}
 	
-
+	
 	/**
 	 * @param from 
 	 * @param to

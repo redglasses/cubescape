@@ -2,15 +2,14 @@ package edu.ouhk.student.cubescape.engine.character;
 
 import edu.ouhk.student.cubescape.R;
 import edu.ouhk.student.cubescape.engine.ActiveObject;
+import edu.ouhk.student.cubescape.engine.Bullet;
 import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 
-public class ValkyrieVF1A extends Character {
-	public float bulletInterval = 0.1f;
-	public long bulletShot = 0;
-	public ValkyrieVF1A() {
-		
+public class Bullet01 extends Bullet {
+	
+	public Bullet01() {
 		super(R.raw.model_valkyrievf1a,R.drawable.texture_vf1a_hikaru);
 		
 		this.jumpMotion = new Model.Animation(new String[]{
@@ -24,21 +23,23 @@ public class ValkyrieVF1A extends Character {
 		this.standMotion = new Model.Animation(new String[]{
 			
 				"taunt08"
-		}, 12f);
+		}, 24f);
 		movingAngle = 180;
+	}
+	public ActiveObject setPosition(float x, float y, float z){
+		this.position.x = x;
+		this.position.y = y;
+		this.position.z = z;
+		return this;
 	}
 	public void shoot(Scene scene){
 		for (ActiveObject bullet : generateBullets()){
 			scene.addObjects(bullet);
-			bulletShot++;
 		}
 	
 	}
 	public ActiveObject[] generateBullets(){
-		return new ActiveObject[]{
-			new Bullet01().setPosition(this.position.x - (float)(Math.random()*3+4), this.position.y, this.position.z + 10), new Bullet01().setPosition(this.position.x + (float)(Math.random()*3+4), this.position.y, this.position.z + 10)	
-		};
-		
+		return new ActiveObject[0];
 	}
 	@Override
 	public void onMoved() {
@@ -74,15 +75,18 @@ public class ValkyrieVF1A extends Character {
 	@Override
 	public void create() {
 		super.create();
-		this.movingStep = 10f;
+		this.scale.x = 0.1f;
+		this.scale.y = 0.1f;
+		this.scale.z = 0.5f;
+		this.movingStep = 20f;
+		
 		this.rotation.y = 180f;
 		//this.move(Direction.LEFT);
 		this.stand();
-		
+		this.move(0-Math.PI/2);
 	}
 	public void stand(){
 		super.stand();
 		this.rotation.z = 0;
 	}
-
 }

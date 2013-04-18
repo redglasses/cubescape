@@ -5,6 +5,10 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public abstract class ActiveObject extends Object implements Object.CollisionListener{
 
+	protected Character character;
+	protected boolean isHoming = false;
+	protected double movingAngle;
+	protected double maxAngle = 0;
 	protected boolean isEnemy = false;
 	protected int hitPoint = 1, attack = 0;
 	
@@ -49,9 +53,44 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 		}
 	
 	}
-	
+	public void update() {
+		model.update();
+	}
 	public void destroy(){
 		//call when the object is destroyed due to enemy's attack
+	}
+	public void onMoved() {
+		double angle;
+		if (isHoming){
+			synchronized (this.character){
+				angle = Math.atan2(((Character)character).position.z - this.position.z, ((Character)character).position.x - this.position.x) + Math.PI;
+
+			}
+			double mAngle = movingAngle + Math.PI;
+			
+			if (angle - mAngle > maxAngle){
+				if (angle - mAngle <= Math.PI){
+					movingAngle = (mAngle + maxAngle) % (Math.PI + Math.PI) - Math.PI;
+				}else{
+					movingAngle = (mAngle - maxAngle) % (Math.PI + Math.PI) - Math.PI;
+				}
+			}else if (mAngle - angle > maxAngle){
+				if (mAngle - angle <= Math.PI){
+					movingAngle = (mAngle - maxAngle) % (Math.PI + Math.PI) - Math.PI;
+				}else{
+					movingAngle = (mAngle + maxAngle) % (Math.PI + Math.PI) - Math.PI;
+				}
+			}else{
+				movingAngle = angle - Math.PI;
+			}
+		}
+		
+	}
+	public Object setHoming(Character character, double maxAngle){
+		this.isHoming = true;
+		this.character = character;
+		this.maxAngle = maxAngle;
+		return this;
 	}
 
 }
