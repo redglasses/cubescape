@@ -64,13 +64,28 @@ public class Factory {
 		return textures.get(resourceId);
 	}
 	
-	public static void cleanCache() {
-		if(models!=null)
-			for(int i=0;i<models.size();i++)
-				models.valueAt(i).dispose();
-		
-		if(textures!=null)
+	public static void cleanTextureCache() {
+		if(textures!=null) {
 			for(int i=0;i<textures.size();i++)
 				textures.valueAt(i).dispose();
+			
+			textures.clear();
+		}
+	}
+	
+	public static void cleanCache() {
+		if(models!=null) {
+			for(int i=0;i<models.size();i++)
+				models.valueAt(i).dispose();
+			
+			models.clear();
+		}
+		
+		if(textures!=null) {
+			for(int i=0;i<textures.size();i++){
+				textures.valueAt(i).dispose();
+			}
+			textures.clear();
+		}
 	}
 }

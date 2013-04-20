@@ -10,8 +10,7 @@ public class Enemy01 extends Character {
 	
 	public Enemy01() {
 		
-		//super(R.raw.model_valkyrievf1a,R.drawable.texture_vf1a_hikaru);
-		super(R.raw.model_qmech,R.drawable.texture_qmech);
+		super(R.raw.model_mario,R.drawable.texture_mario);
 		
 		this.jumpMotion = new Model.Animation(new String[]{
 			
@@ -22,8 +21,7 @@ public class Enemy01 extends Character {
 		}, 12f);
 		
 		this.standMotion = new Model.Animation(new String[]{
-			
-				"taunt08"
+			"run1", "run2", "run3", "run4", "run5", "run6"
 		}, 12f);
 		this.position.x = 0f;
 		this.position.z = -300f;
@@ -46,28 +44,6 @@ public class Enemy01 extends Character {
 
 	@Override
 	public boolean onDirectionChange(Direction to) {
-		
-			switch(to){
-				case LEFT:
-					this.rotation.z = -60;
-					break;
-				case UP_LEFT:
-				case DOWN_LEFT:
-					this.rotation.z = -30;
-					break;
-				case RIGHT:
-					this.rotation.z = 60;
-					break;
-				case UP_RIGHT:
-				case DOWN_RIGHT:
-					this.rotation.z = 30;
-					break;
-				default:
-					this.rotation.z = 0;
-				
-			}
-		
-		
 		return false;
 	}
 	@Override

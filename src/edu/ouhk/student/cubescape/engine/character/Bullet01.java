@@ -10,7 +10,7 @@ import edu.ouhk.student.cubescape.engine.Scene;
 public class Bullet01 extends Bullet {
 	
 	public Bullet01() {
-		super(R.raw.model_valkyrievf1a,R.drawable.texture_vf1a_hikaru);
+		super(R.raw.model_box,R.drawable.texture_crate);
 		
 		this.jumpMotion = new Model.Animation(new String[]{
 			
@@ -22,7 +22,7 @@ public class Bullet01 extends Bullet {
 		
 		this.standMotion = new Model.Animation(new String[]{
 			
-				"taunt08"
+				"frame01"
 		}, 24f);
 		movingAngle = 180;
 	}
@@ -75,18 +75,22 @@ public class Bullet01 extends Bullet {
 	@Override
 	public void create() {
 		super.create();
-		this.scale.x = 0.1f;
+		/*this.scale.x = 0.1f;
 		this.scale.y = 0.1f;
-		this.scale.z = 0.5f;
+		this.scale.z = 0.5f;*/
 		this.movingStep = 20f;
 		
-		this.rotation.y = 180f;
+		this.scale.x = this.scale.y = .002f;
+		this.scale.z = .005f;
+		
+		//this.rotation.y = 180f;
 		//this.move(Direction.LEFT);
-		this.stand();
+		//this.stand();
+		//this.rotation.z = 0;
 		this.move(0-Math.PI/2);
 	}
 	public void stand(){
-		super.stand();
+		//super.stand();
 		this.rotation.z = 0;
 	}
 }

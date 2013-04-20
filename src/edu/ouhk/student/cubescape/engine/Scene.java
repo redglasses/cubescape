@@ -44,7 +44,9 @@ public abstract class Scene implements Renderer.RenderingListener {
 		
 	}
 
-			
+	public Character getCharacter() {
+		return this.character;
+	}
 
 	
 	public LinkedList<Renderer.Renderable> getObjects() {
@@ -101,4 +103,8 @@ public abstract class Scene implements Renderer.RenderingListener {
 	public void onPostRender() {
 		
 	}
+	
+	public abstract void onGameOver();
+	public abstract void onKill();
+	public abstract void onCharacterDead();
 }

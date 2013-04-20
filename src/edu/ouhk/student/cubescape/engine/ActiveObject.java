@@ -1,5 +1,7 @@
 package edu.ouhk.student.cubescape.engine;
 
+import android.util.Log;
+
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
@@ -10,9 +12,9 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 	protected double movingAngle;
 	protected double maxAngle = 0;
 	protected boolean isEnemy = false;
-	protected int hitPoint = 1, attack = 0;
+	protected int hitPoint = 1, attackPower = 1;
 	
-	public boolean isDied(){
+	public boolean isDead(){
 		return hitPoint <= 0;
 	}
 	public boolean setEnemy(boolean isEnemy){
@@ -46,12 +48,13 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 	public void render(ShaderProgram program) {
 		super.render(program);
 	}
+	
+	@Override
 	public void onCollided(Object object){
 		if (object instanceof ActiveObject){
-			this.hitPoint -= ((ActiveObject) object).attack;
-			((ActiveObject) object).hitPoint -= this.attack;
+			hitPoint -= ((ActiveObject)object).attackPower;
+			((ActiveObject) object).hitPoint -= this.attackPower;
 		}
-	
 	}
 	public void update() {
 		model.update();

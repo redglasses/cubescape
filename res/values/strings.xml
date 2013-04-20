@@ -19,4 +19,7 @@ We create worlds.</string>
 	<string name="pref_sound_decs">Sound effect toggle</string>
 	<string name="pref_music_title">Background music</string>
 	<string name="pref_music_decs">Background music toggle</string>
+	
+	<string name="score">Score</string>
+	<string name="life">Life</string>
 </resources>

@@ -24,7 +24,7 @@ public abstract class Object implements Renderer.Renderable {
 		public void onCollided(Object object);
 	}
 
-	public float radius = 1f;
+	public float radius = 10f;
 	public Vector3 scale, position, rotation;
 	public boolean isVisible = true;
 	public boolean isBlockable = false;
@@ -68,20 +68,21 @@ public abstract class Object implements Renderer.Renderable {
 	}
 	
 	public Sphere getSphere() {
-		return new Sphere(this.model.getBoundingBox().getCenter().add(this.position), radius);
+		return new Sphere(this.position, radius);
 	}
 	
 	@Override
 	public void create() {
 		KeyframedModel model = Factory.loadModel(modelId);
-		if(color==null){
+		/*if(color==null){
 			model.setMaterial(new Material("default",
 					new TextureAttribute(Factory.loadTexture(textureId), 0, TEXTURE_ATTRIBUTE),
 					new ColorAttribute(new Color(1, 1, 1, 1), COLOR_ATTRIBUTE)));
 		} else
 			model.setMaterial(new Material("default", new ColorAttribute(color, COLOR_ATTRIBUTE)));
-		
+		*/
 		this.model = new Model(model);
+		//this.model.bindMaterial(textureId);
 		
 		for(Renderer.Renderable o : childs)
 			((Object)o).create();
@@ -98,6 +99,8 @@ public abstract class Object implements Renderer.Renderable {
 		if(isVisible){
 			Gdx.gl20.glFrontFace(GL20.GL_CW);
 			Gdx.gl20.glEnable(GL20.GL_TEXTURE_2D);
+			
+			model.bindMaterial(textureId);
 
 			Matrix4 translation = new Matrix4();
 			translation.setToTranslationAndScaling(position.x, position.y, position.z, scale.x, scale.y, scale.z);

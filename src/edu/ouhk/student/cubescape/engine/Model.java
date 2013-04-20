@@ -3,6 +3,10 @@ package edu.ouhk.student.cubescape.engine;
 import java.util.LinkedList;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g3d.materials.ColorAttribute;
+import com.badlogic.gdx.graphics.g3d.materials.Material;
+import com.badlogic.gdx.graphics.g3d.materials.TextureAttribute;
 import com.badlogic.gdx.graphics.g3d.model.keyframe.KeyframedModel;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.math.Vector3;
@@ -41,6 +45,22 @@ public class Model {
 			frameChangeListeners = new LinkedList<FrameChangeListener>();
 		}
 		this.model = model;
+	}
+	
+	public void bindMaterial(int textureId) {
+		model.setMaterial(new Material("default",
+				new TextureAttribute(Factory.loadTexture(textureId), 0, Object.TEXTURE_ATTRIBUTE),
+				new ColorAttribute(new Color(1, 1, 1, 1), Object.COLOR_ATTRIBUTE)));
+	}
+	
+	public void bindMaterial(Color color) {
+		model.setMaterial(new Material("default", new ColorAttribute(color, Object.COLOR_ATTRIBUTE)));
+	}
+	
+	public void bindMaterial(int textureId, Color color) {
+		model.setMaterial(new Material("default",
+				new TextureAttribute(Factory.loadTexture(textureId), 0, Object.TEXTURE_ATTRIBUTE),
+				new ColorAttribute(color, Object.COLOR_ATTRIBUTE)));
 	}
 	
 	public BoundingBox getBoundingBox() {

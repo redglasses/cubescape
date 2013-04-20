@@ -80,4 +80,22 @@ public class MainMenuScene extends Scene {
 		super.onPostRender();
 		character.update();
 	}
+
+	@Override
+	public void onGameOver() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onKill() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCharacterDead() {
+		// TODO Auto-generated method stub
+		
+	}
 }

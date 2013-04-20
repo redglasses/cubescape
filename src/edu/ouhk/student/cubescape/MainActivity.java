@@ -4,6 +4,7 @@ import java.util.LinkedHashMap;
 
 import com.badlogic.gdx.backends.android.AndroidApplication;
 
+import edu.ouhk.student.cubescape.engine.Factory;
 import edu.ouhk.student.cubescape.engine.renderer.GLES20;
 import edu.ouhk.student.cubescape.engine.scene.*;
 
@@ -50,7 +51,8 @@ public class MainActivity extends AndroidApplication {
 		menu.add(R.string.new_game, new Runnable(){
 			@Override
 			public void run() {
-				startActivity(new Intent(self, SampleGameActivity.class));
+				startActivity(new Intent(self, GameActivity.class));
+				exit();
 			}
 		});
 		menu.add(R.string.score_board, new Runnable(){
@@ -80,5 +82,11 @@ public class MainActivity extends AndroidApplication {
 
 		FrameLayout l = (FrameLayout)findViewById(R.id.main_top_view);
 		l.addView(initializeForView(new GLES20(new MainMenuScene()), Application.GLConfig));
+	}
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		Factory.cleanTextureCache();
 	}
 }
