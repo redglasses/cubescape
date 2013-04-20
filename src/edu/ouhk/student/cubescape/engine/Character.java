@@ -18,7 +18,7 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 	
 	protected boolean isMoving = false;
 	protected float movingStep = 4f;
-	
+	protected int score_bonus = 3;
 	protected Direction direction;
 
 	protected float setMovingStep(float step){
@@ -27,7 +27,7 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 	}
 	protected Character(int modelId, int textureId) {
 		super(modelId, textureId);
-		
+		this.attackPower = 10;
 	}
 	
 	@Override
@@ -46,35 +46,36 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 		movingAngle = angle;
 		switch ((int)Math.round(angle/Math.PI*4)){
 			case 0:
-				onDirectionChange(Character.Direction.LEFT);
+				onDirectionChange(Character.Direction.RIGHT);
 				break;
 			case 1:
-				onDirectionChange(Character.Direction.UP_LEFT);
+				onDirectionChange(Character.Direction.DOWN_RIGHT);
 				break;
 			case 2:
-				onDirectionChange(Character.Direction.UP);
+				onDirectionChange(Character.Direction.DOWN);
 				break;
 			case 3:
-				onDirectionChange(Character.Direction.UP_RIGHT);
+				onDirectionChange(Character.Direction.DOWN_LEFT);
 				break;
 			case 4:
 			case -4:
-				onDirectionChange(Character.Direction.RIGHT);
+				onDirectionChange(Character.Direction.LEFT);
 				break;
 			case -3:
-				onDirectionChange(Character.Direction.DOWN_RIGHT);
+				onDirectionChange(Character.Direction.UP_LEFT);
 				break;
 			case -2:
-				onDirectionChange(Character.Direction.DOWN);
+				onDirectionChange(Character.Direction.UP);
 				break;
 			case -1:
-				onDirectionChange(Character.Direction.DOWN_LEFT);
+				onDirectionChange(Character.Direction.UP_RIGHT);
 				break;
 		}
 	}
 	
 	public void stand() {
 		model.playAnimtion(standMotion);
+		this.direction = Direction.UP;
 		isMoving = false;
 	}
 	

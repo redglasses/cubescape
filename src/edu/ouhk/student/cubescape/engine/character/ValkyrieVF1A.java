@@ -5,6 +5,7 @@ import com.badlogic.gdx.Gdx;
 import edu.ouhk.student.cubescape.R;
 import edu.ouhk.student.cubescape.engine.ActiveObject;
 import edu.ouhk.student.cubescape.engine.Character;
+import edu.ouhk.student.cubescape.engine.Bullet;
 import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 
@@ -23,7 +24,7 @@ public class ValkyrieVF1A extends Character {
 		}, 12f);
 
 		this.runMotion = new Model.Animation(new String[]{
-			
+			"crstand01"
 		}, 12f);
 		
 		this.standMotion = new Model.Animation(new String[]{
@@ -31,6 +32,7 @@ public class ValkyrieVF1A extends Character {
 				"taunt08"
 		}, 12f);
 		movingAngle = 180;
+		this.radius = 2.5f;
 	}
 	
 	public void shoot(Scene scene){
@@ -38,6 +40,7 @@ public class ValkyrieVF1A extends Character {
 		if(timer>=bulletInterval) {
 			timer = 0;
 			for (ActiveObject bullet : generateBullets()){
+				((Bullet)bullet).move(0-Math.PI/2);
 				scene.addObjects(bullet);
 				bulletShot++;
 			}
@@ -46,7 +49,12 @@ public class ValkyrieVF1A extends Character {
 	
 	public ActiveObject[] generateBullets(){
 		return new ActiveObject[]{
-			new Bullet01().setPosition(this.position.x - (float)(Math.random()*3+4), this.position.y, this.position.z + 10), new Bullet01().setPosition(this.position.x + (float)(Math.random()*3+4), this.position.y, this.position.z + 10)	
+			new Bullet01().setPosition(this.position.x - (float)(Math.random()*3+2), 
+					this.position.y - 5, 
+					(float)(this.position.z - Math.random() * 10 - 20)), 
+			new Bullet01().setPosition(this.position.x + (float)(Math.random()*3+2), 
+					this.position.y - 5, 
+					(float)(this.position.z - Math.random() * 10 - 20))	
 		};
 		
 	}
@@ -58,28 +66,58 @@ public class ValkyrieVF1A extends Character {
 
 	@Override
 	public boolean onDirectionChange(Direction to) {
-		
+			switch(this.direction){
+			case LEFT:
+			case RIGHT:
+			case UP_LEFT:
+			case UP_RIGHT:
+			case UP:
+				switch(to){
+				case DOWN:
+				case DOWN_LEFT:
+				case DOWN_RIGHT:
+					this.model.playAnimtion(runMotion);
+					System.out.println("to_DOWN");
+					break;
+				}
+				break;
+			case DOWN:
+			case DOWN_LEFT:
+			case DOWN_RIGHT:
+				switch(to){
+				case LEFT:
+				case RIGHT:
+				case UP_LEFT:
+				case UP_RIGHT:
+				case UP:
+					this.model.playAnimtion(standMotion);
+					System.out.println("to_UP");
+					break;
+				}
+				break;
+			}
 			switch(to){
 				case LEFT:
-					this.rotation.z = 60;
-					break;
-				case UP_LEFT:
-				case DOWN_LEFT:
-					this.rotation.z = 30;
-					break;
-				case RIGHT:
 					this.rotation.z = -60;
 					break;
-				case UP_RIGHT:
-				case DOWN_RIGHT:
+				case UP_LEFT:
 					this.rotation.z = -30;
 					break;
-				default:
+				case RIGHT:
+					this.rotation.z = 60;
+					break;
+				case UP_RIGHT:
+					this.rotation.z = 30;
+					break;
+				case DOWN_LEFT:
+				case DOWN_RIGHT:
+				case DOWN:
 					this.rotation.z = 0;
-				
+					break;
+
 			}
 		
-		
+		this.direction = to;
 		return false;
 	}
 	@Override

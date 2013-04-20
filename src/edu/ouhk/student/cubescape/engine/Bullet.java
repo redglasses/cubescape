@@ -27,7 +27,7 @@ public abstract class Bullet extends ActiveObject implements Model.FrameChangeLi
 	}
 	protected Bullet(int modelId, int textureId) {
 		super(modelId, textureId);
-		
+		this.attackPower = 10;
 	}
 	
 	@Override
@@ -44,6 +44,7 @@ public abstract class Bullet extends ActiveObject implements Model.FrameChangeLi
 	public void move(double angle) {	
 		isMoving = true;
 		movingAngle = angle;
+		
 		switch ((int)Math.round(angle/Math.PI*4)){
 			case 0:
 				onDirectionChange(Bullet.Direction.LEFT);

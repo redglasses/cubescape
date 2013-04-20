@@ -12,7 +12,7 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 	protected double movingAngle;
 	protected double maxAngle = 0;
 	protected boolean isEnemy = false;
-	protected int hitPoint = 1, attackPower = 1;
+	protected int hitPoint = 1, attackPower = 0;
 	
 	public boolean isDead(){
 		return hitPoint <= 0;

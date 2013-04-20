@@ -24,7 +24,7 @@ public class Bullet01 extends Bullet {
 			
 				"frame01"
 		}, 24f);
-		movingAngle = 180;
+		
 	}
 	public ActiveObject setPosition(float x, float y, float z){
 		this.position.x = x;
@@ -43,6 +43,7 @@ public class Bullet01 extends Bullet {
 	}
 	@Override
 	public void onMoved() {
+		super.onMoved();
 		
 	}
 
@@ -80,14 +81,13 @@ public class Bullet01 extends Bullet {
 		this.scale.z = 0.5f;*/
 		this.movingStep = 20f;
 		
-		this.scale.x = this.scale.y = .002f;
-		this.scale.z = .005f;
-		
+		this.scale.x = this.scale.y = .001f;
+		this.scale.z = .006f;
 		//this.rotation.y = 180f;
 		//this.move(Direction.LEFT);
 		//this.stand();
 		//this.rotation.z = 0;
-		this.move(0-Math.PI/2);
+		
 	}
 	public void stand(){
 		//super.stand();
