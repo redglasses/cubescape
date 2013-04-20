@@ -3,14 +3,14 @@ package edu.ouhk.student.cubescape.engine.character;
 import edu.ouhk.student.cubescape.R;
 import edu.ouhk.student.cubescape.engine.ActiveObject;
 import edu.ouhk.student.cubescape.engine.Bullet;
-import edu.ouhk.student.cubescape.engine.Character;
+
 import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 
 public class Bullet01 extends Bullet {
 	
 	public Bullet01() {
-		super(R.raw.model_box,R.drawable.texture_crate);
+		super(R.raw.model_box,R.drawable.texture_crate2);
 		
 		this.jumpMotion = new Model.Animation(new String[]{
 			
@@ -24,7 +24,7 @@ public class Bullet01 extends Bullet {
 			
 				"frame01"
 		}, 24f);
-		
+		this.radius = 1;
 	}
 	public ActiveObject setPosition(float x, float y, float z){
 		this.position.x = x;
