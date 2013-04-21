@@ -24,7 +24,11 @@ public class Bullet01 extends Bullet {
 			
 				"frame01",
 		}, 24f);
-		this.radius = 1;
+		this.radius = 3;
+		this.movingStep = 40f;
+		
+		this.scale.x = this.scale.y = .001f;
+		this.scale.z = .02f;
 	}
 	public ActiveObject setPosition(float x, float y, float z){
 		this.position.x = x;
@@ -71,10 +75,7 @@ public class Bullet01 extends Bullet {
 		/*this.scale.x = 0.1f;
 		this.scale.y = 0.1f;
 		this.scale.z = 0.5f;*/
-		this.movingStep = 20f;
-		
-		this.scale.x = this.scale.y = .001f;
-		this.scale.z = .006f;
+
 		//this.rotation.y = 180f;
 		//this.move(Direction.LEFT);
 		//this.stand();
