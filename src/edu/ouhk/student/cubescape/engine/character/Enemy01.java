@@ -28,7 +28,7 @@ public class Enemy01 extends Character {
 		}, 12f);
 		this.position.x = (float)(Math.random() * 500 - 250);
 		this.position.z = -350f;
-		
+		this.radius = 15f;
 		this.hitPoint = 20;
 		this.setEnemy(true);
 		this.bulletInterval = 6f;
