@@ -106,8 +106,8 @@ public abstract class ActiveObject extends Object{
 		if(timer>=bulletInterval) {
 			timer = 0;
 			for (ActiveObject bullet : generateBullets()){
-				bullet.setEnemy(true);
-				((Bullet)bullet).move(this.movingAngle);
+				//bullet.setEnemy(true);
+				//((Bullet)bullet).move(bullet.movingAngle);
 				
 				scene.addObjects(bullet);
 				

@@ -1,5 +1,8 @@
 package edu.ouhk.student.cubescape.engine.character;
 
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+
 import edu.ouhk.student.cubescape.R;
 import edu.ouhk.student.cubescape.engine.ActiveObject;
 import edu.ouhk.student.cubescape.engine.Bullet;
@@ -7,11 +10,10 @@ import edu.ouhk.student.cubescape.engine.Bullet;
 import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 
-public class Bullet01 extends Bullet {
-	
-	public Bullet01() {
-		super(R.raw.model_box,R.drawable.texture_crate2);
-		
+public class Bullet02 extends Bullet {
+	private Color color = new Color(0,0,0,0);
+	public Bullet02() {
+		super(R.raw.model_ufo,R.drawable.texture_ufo);
 		this.jumpMotion = new Model.Animation(new String[]{
 			
 		}, 12f);
@@ -22,16 +24,12 @@ public class Bullet01 extends Bullet {
 		
 		this.standMotion = new Model.Animation(new String[]{
 			
-				"frame01",
-		}, 24f);
+				"run1"//,"run2","run3","run4","run5","run6"
+		}, 12f);
 		this.radius = 1;
+		this.scale.x = this.scale.y = this.scale.z = 0.2f;
 	}
-	public ActiveObject setPosition(float x, float y, float z){
-		this.position.x = x;
-		this.position.y = y;
-		this.position.z = z;
-		return this;
-	}
+	
 
 	@Override
 	public void onMoved() {
@@ -42,7 +40,7 @@ public class Bullet01 extends Bullet {
 	@Override
 	public boolean onDirectionChange(Direction to) {
 		
-			switch(to){
+			/*switch(to){
 				case LEFT:
 					this.rotation.z = 60;
 					break;
@@ -60,7 +58,7 @@ public class Bullet01 extends Bullet {
 				default:
 					this.rotation.z = 0;
 				
-			}
+			}*/
 		
 		
 		return false;
@@ -71,10 +69,10 @@ public class Bullet01 extends Bullet {
 		/*this.scale.x = 0.1f;
 		this.scale.y = 0.1f;
 		this.scale.z = 0.5f;*/
-		this.movingStep = 20f;
-		
-		this.scale.x = this.scale.y = .001f;
-		this.scale.z = .006f;
+		this.movingStep = 10f;
+		this.move(this.movingAngle);
+		//this.scale.x = this.scale.y = this.scale.z = .001f;
+		//this.scale.z = .006f;
 		//this.rotation.y = 180f;
 		//this.move(Direction.LEFT);
 		//this.stand();
@@ -85,4 +83,6 @@ public class Bullet01 extends Bullet {
 		//super.stand();
 		this.rotation.z = 0;
 	}
+	
+	
 }

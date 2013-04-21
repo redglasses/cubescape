@@ -10,11 +10,7 @@ import edu.ouhk.student.cubescape.engine.Model;
 import edu.ouhk.student.cubescape.engine.Scene;
 
 public class Enemy01 extends Character {
-	
-	public float bulletInterval = 3f;
-	public long bulletShot = 0;
-	
-	public float timer = 0;
+
 	public Enemy01() {
 		
 		super(R.raw.model_mario,R.drawable.texture_mario);
@@ -33,13 +29,13 @@ public class Enemy01 extends Character {
 		this.position.x = (float)(Math.random() * 500 - 250);
 		this.position.z = -350f;
 		
-		this.hitPoint = 100;
+		this.hitPoint = 20;
 		this.setEnemy(true);
+		this.bulletInterval = 6f;
 	}
 	
-	public void shoot(Scene scene){
+	/*public void shoot(Scene scene){
 		timer += Gdx.graphics.getDeltaTime();
-		System.out.println(timer);
 		if(timer>=bulletInterval) {
 			timer = 0;
 			for (ActiveObject bullet : generateBullets()){
@@ -53,12 +49,12 @@ public class Enemy01 extends Character {
 			}
 		}
 	
-	}
+	}*/
 	public ActiveObject[] generateBullets(){
 		float x = (float)(10 * Math.sin(this.movingAngle));
 		float z = (float)(10 * Math.cos(this.movingAngle));
 		return new ActiveObject[]{
-				new Bullet01().setPosition(this.position.x + x, this.position.y - 5, this.position.z + z)
+				new Bullet02().setPosition(this.position.x + x, this.position.y - 5, this.position.z + z)
 		};
 	}
 
