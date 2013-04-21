@@ -84,6 +84,12 @@ public abstract class Bullet extends ActiveObject implements Model.FrameChangeLi
 	}
 	
 	@Override
+	public void onCollided(Object object) {
+		if (!(this.isEnemy() == ((ActiveObject)object).isEnemy()) && !(object instanceof Bullet))
+			super.onCollided(object);
+	}
+	
+	@Override
 	public void onFrameChange() {
 		if(isMoving){
 			position.x += movingStep * Math.cos(movingAngle);

@@ -1,6 +1,7 @@
 package edu.ouhk.student.cubescape.engine;
 
 import java.util.LinkedList;
+import java.util.Vector;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Camera;
@@ -13,43 +14,51 @@ import edu.ouhk.student.cubescape.engine.renderer.GLES20;
 public abstract class Scene implements Renderer.RenderingListener {
 	public static final float ANGLE_OF_VIEW = 67f;
 	
-	protected LinkedList<Renderer.Renderable> objects;
+	protected LinkedList<Object> objects;
+	protected LinkedList<Object.CollisionListener> colliables;
+	protected Vector<Object> removingObjects;
 	protected Camera camera;
 	protected Character character;
 	
-	private Renderer.Renderable[] bufferRenderable = null;
+	private Object[] bufferRenderable;
+	
 	public Color backgroundColor;
 
 	public Scene(Character character) {
 		this.character = character;
-		this.objects = new LinkedList<Renderer.Renderable>();
-		
-		
-		
+		this.objects = new LinkedList<Object>();
+		this.colliables = new LinkedList<Object.CollisionListener>();
+		this.removingObjects = new Vector<Object>();
 		this.backgroundColor = new Color(1f, 1f, 1f, 1f);
 	}
 	
-	public Scene(Character character, Renderer.Renderable ...object) {
+	public Scene(Character character, Object ...object) {
 		this(character);
 		bufferRenderable = object;
-		
 	}
 	
-	public void addObjects(Renderer.Renderable ...object) {
-		for(Renderer.Renderable o : object){
-			this.objects.add(o);
+	public void addObjects(Object ...object) {
+		for(Object o : object){
+			objects.add(o);
 			o.create();
+			if (o instanceof Object.CollisionListener)
+				colliables.add((Object.CollisionListener)o);
 		}
-			
-		
+	}
+	
+	public void removeObjects(Object ...object) {
+		for(Object o : object) {
+			removingObjects.add(o);
+			if(o instanceof Object.CollisionListener && colliables.contains(o))
+				colliables.remove(o);
+		}
 	}
 
 	public Character getCharacter() {
 		return this.character;
 	}
 
-	
-	public LinkedList<Renderer.Renderable> getObjects() {
+	public LinkedList<Object> getObjects() {
 		return this.objects;
 	}
 
@@ -57,7 +66,7 @@ public abstract class Scene implements Renderer.RenderingListener {
 	public void onCreate() {
 		this.camera = new PerspectiveCamera(ANGLE_OF_VIEW, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 		
-		this.camera.far = 1000f;
+		this.camera.far = Float.MAX_VALUE / 2;
 		this.camera.near = 1f;
 		addObjects(this.character);
 		if (bufferRenderable != null){
@@ -89,22 +98,26 @@ public abstract class Scene implements Renderer.RenderingListener {
 	@Override
 	public void onPreRender() {
 		Gdx.gl20.glClearColor(backgroundColor.r, backgroundColor.g, backgroundColor.b, backgroundColor.a);
+		
+		for(Object o : removingObjects)
+			objects.remove(o);
+		removingObjects.clear();
 	}
 	
 	@Override
 	public void onRender(ShaderProgram program) {
 		program.setUniformMatrix(GLES20.PROJECTION_ATTRIBUTE, camera.combined);
-		
-		for(Renderer.Renderable o : objects)
+
+		for(Object o : objects)
 			o.render(program);
 	}
 	
 	@Override
 	public void onPostRender() {
-		
+		// Collision detection
+		for(Object o : objects)
+			for(Object.CollisionListener c : colliables)
+				if (o != c && o.isOverlaid((Object)c))
+					c.onCollided(o);
 	}
-	
-	public abstract void onGameOver();
-	public abstract void onKill();
-	public abstract void onCharacterDead();
 }

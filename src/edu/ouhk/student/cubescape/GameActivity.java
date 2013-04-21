@@ -3,6 +3,10 @@ package edu.ouhk.student.cubescape;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
+import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -24,7 +28,8 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 	private Vector2 touchedAt;
 	private Music bgMusic;
 	
-	private static int score = 0;
+	private int score = 0;
+	private int life = 3;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -34,24 +39,23 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		((RelativeLayout)findViewById(R.id.game_view)).addView(
 				initializeForView(new GLES20(game = new GameScene(){
 					@Override
-					public void onGameOver() {
-						Log.d("Game","Over");
-					}
-					
-					@Override
-					public void onKill() {
-						Log.d("Game","onKill");
+					public void onEnemyKilled(final int score) {
 						runOnUiThread(new Runnable(){
 							@Override
 							public void run() {
-								addScore(3);
+								addScore(score);
 							}
 						});
 					}
 					
 					@Override
 					public void onCharacterDead() {
-						
+						runOnUiThread(new Runnable(){
+							@Override
+							public void run() {
+								dead();
+							}
+						});
 					}
 				}), Application.GLConfig));
 
@@ -59,6 +63,8 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		findViewById(R.id.txt_life_bar).bringToFront();
 		
 		((TextView)findViewById(R.id.txt_score)).setText(""+score);
+		((RatingBar)findViewById(R.id.txt_life_bar)).setRating(life);
+		
 		
 		bgMusic = Gdx.audio.newMusic(files.internal("audio/imagine.mp3"));
 		
@@ -70,6 +76,20 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		((TextView)findViewById(R.id.txt_score)).setText(""+this.score);
 	}
 	
+	public void dead() {
+		this.life--;
+		((RatingBar)findViewById(R.id.txt_life_bar)).setRating(life);
+		
+		if (life == 0)
+			gameOver();
+	}
+	
+	public void gameOver() {
+		Application.ScoreBoard.addRecord(score);
+		startActivity(new Intent(this, MainActivity.class));
+		exit();
+	}
+	
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -79,14 +99,31 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 	@Override
 	public void onResume() {
 		super.onResume();
-		bgMusic.play();
+		if(Application.Preferences.get().getBoolean(getResources().getString(R.string.pref_music_id), true))
+			bgMusic.play();
 		Factory.cleanTextureCache();
 	}
 	
 	@Override
 	public void onBackPressed() {
-		startActivity(new Intent(this, MainActivity.class));
-		exit();
+		/* Do nothing here */
+	}
+	
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.game_option_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.btn_menu_quit:
+			startActivity(new Intent(this, MainActivity.class));
+			exit();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
 	}
 	
 	@Override
@@ -106,36 +143,40 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 
 	@Override
 	public boolean mouseMoved(int screenX, int screenY) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean scrolled(int d) {
-		return false;
+		return true;
 	}
 
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		touchedAt = new Vector2(screenX, screenY);
+		if(touchedAt==null)
+			touchedAt = new Vector2(screenX, screenY);
 		return true;
 	}
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		if(touchedAt.y != screenY && touchedAt.x != screenX
-				&& (Math.abs(screenY - touchedAt.y) > pointer * pointerOffset
-						|| Math.abs(screenX - touchedAt.x) > pointer * pointerOffset))
-			synchronized(game.getCharacter()){
-				game.getCharacter().move(Math.atan2(screenY - touchedAt.y, screenX - touchedAt.x));
-			}
-		
+		if(touchedAt!=null){
+			if(touchedAt.y != screenY && touchedAt.x != screenX
+					&& Math.abs(screenY - touchedAt.y) > pointer * pointerOffset
+					&& Math.abs(screenX - touchedAt.x) > pointer * pointerOffset)
+				synchronized(game.getCharacter()){
+					game.getCharacter().move(Math.atan2(screenY - touchedAt.y, screenX - touchedAt.x));
+				}
+		}
 		return true;
 	}
 
 	@Override
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		touchedAt = null;
-		game.getCharacter().stand();
+		if(touchedAt!=null){
+			touchedAt = null;
+			game.getCharacter().stand();
+		}
 		return true;
 	}
 }

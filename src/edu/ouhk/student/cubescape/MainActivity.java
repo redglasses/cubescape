@@ -52,6 +52,7 @@ public class MainActivity extends AndroidApplication {
 			@Override
 			public void run() {
 				startActivity(new Intent(self, GameActivity.class));
+				overridePendingTransition(R.anim.fadein,R.anim.fadeout);
 				exit();
 			}
 		});

@@ -3,8 +3,6 @@ package edu.ouhk.student.cubescape.engine.scene;
 import java.util.Date;
 import java.util.LinkedList;
 
-import android.util.Log;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
@@ -12,21 +10,17 @@ import edu.ouhk.student.cubescape.engine.ActiveObject;
 import edu.ouhk.student.cubescape.engine.Bullet;
 import edu.ouhk.student.cubescape.engine.Character;
 import edu.ouhk.student.cubescape.engine.Object;
-import edu.ouhk.student.cubescape.engine.Renderer;
 import edu.ouhk.student.cubescape.engine.Renderer.Renderable;
 import edu.ouhk.student.cubescape.engine.Scene;
 import edu.ouhk.student.cubescape.engine.character.*;
 import edu.ouhk.student.cubescape.engine.object.UniverseBox;
 
 public class GameScene extends Scene {
-	protected int score = 0;
-	protected static float maxX = 300;
-	protected static float maxZ = 400;
-	protected LinkedList<Object> enemyChar;
-	protected LinkedList<Object> allyBullet;
-	protected LinkedList<Object> enemyBullet;
-	protected LinkedList<Object> environmentObjects;
-	protected int life = 3;
+	private static final float maxX = 300;
+	private static final float maxZ = 400;
+	protected LinkedList<Character> enemyChar;
+	protected LinkedList<Bullet> allyBullet;
+	protected LinkedList<Bullet> enemyBullet;
 	protected float startTime = 0;
 	protected float timeInterval = 0;
 	protected final float EnemyInterval = 1f;
@@ -38,6 +32,12 @@ public class GameScene extends Scene {
 	
 	public GameScene() {
 		super(new ValkyrieVF1A(){
+			@Override
+			public void onCollided(Object object){
+				if(object instanceof ActiveObject && ((ActiveObject)object).isEnemy())
+					super.onCollided(object);
+			}
+			
 			@Override
 			public void onFrameChange() {
 				if(isMoving){
@@ -57,10 +57,9 @@ public class GameScene extends Scene {
 			}
 		});
 
-		enemyChar = new LinkedList<Object>();
-		allyBullet = new LinkedList<Object>();
-		enemyBullet = new LinkedList<Object>();
-		environmentObjects = new LinkedList<Object>();
+		enemyChar = new LinkedList<Character>();
+		allyBullet = new LinkedList<Bullet>();
+		enemyBullet = new LinkedList<Bullet>();
 		startTime = 0;
 	}
 	
@@ -95,22 +94,19 @@ public class GameScene extends Scene {
 
 		((ValkyrieVF1A)(this.character)).shoot(this);
 	}
-	public void addObjects(Renderer.Renderable ...object) {
+	
+	@Override
+	public void addObjects(Object ...object) {
 		super.addObjects(object);
 		for (Renderable o : object){
-			if (o instanceof Character){
-				if (((ActiveObject)o).isEnemy()){
-					enemyChar.add((Object)o);
-				}
-				
-			}
+			if (o instanceof Character && ((ActiveObject)o).isEnemy())
+					enemyChar.add((Character)o);
+
 			if (o instanceof Bullet){
-				if (((ActiveObject)o).isEnemy()){
-					enemyBullet.add((Object)o);
-				}
-				else{
-					allyBullet.add((Object)o);
-				}
+				if (((ActiveObject)o).isEnemy())
+					enemyBullet.add((Bullet)o);
+				else
+					allyBullet.add((Bullet)o);
 			}
 		}
 	}
@@ -118,6 +114,10 @@ public class GameScene extends Scene {
 	public void onPreRender() {
 		super.onPreRender();
 		camera.update();
+		
+		((ValkyrieVF1A)this.character).shoot(this);
+		for(Character c : enemyChar)
+			((Enemy01)c).shoot(this);
 	}
 	
 	@Override
@@ -125,120 +125,58 @@ public class GameScene extends Scene {
 		super.onPostRender();
 		character.update();
 		
-		LinkedList<Object> removalObjectList = new LinkedList<Object>();
-		LinkedList<Object> removalEnemyList = new LinkedList<Object>();
-		LinkedList<Object> removalEnemyBulletList = new LinkedList<Object>();
-		LinkedList<Object> removalAllyBulletList = new LinkedList<Object>();
+		if(character.isDead()){
+			onCharacterDead();
+			character.hitPoint = character.maxHitPoint;
+		}
 		
-		for (Renderable o : objects){
-			if (o instanceof ActiveObject){
+		for (Object o : objects){
+			if (o instanceof ActiveObject)
 				((ActiveObject)o).update();
-			}
 			
-			// off screen objects set to invisible
-			if (Math.abs(((Object)o).position.x) > maxX || Math.abs(((Object)o).position.z) > maxZ){
-				if (o instanceof Bullet){
-					if (((ActiveObject)o).isEnemy()){
-						enemyBullet.remove(o);
-					} else{
-						allyBullet.remove(o);
-					}
-				}
-				if (o instanceof Character)
+			if(o instanceof Character && enemyChar.contains(o)) {
+				if (isOffScreen(o)) {
 					enemyChar.remove(o);
-				
-				removalObjectList.add((Object)o);
-			}
-		}
-
-		//Collision Detection
-		/*for (Object enemy : enemyChar) {
-			if(character.isOverlaid(enemy)){
-				//Log.d("GameScene","isOverlaid");
-				//enemyChar.remove(enemy);
-				removalEnemyList.add(enemy);
-				removalObjectList.add(enemy);
-				life--;
-				onCharacterDead();
-			}
-			
-			for (Object ally : allyBullet) {
-				if (ally.isOverlaid(enemy)) {
-					Log.d("GameScene","ally bullet hit enemy");
-					if (enemy instanceof Object.CollisionListener) {
-						((Object.CollisionListener)enemy).onCollided(ally);
-					}
+					removeObjects(o);
 				}
-			}
-			
-			if(((ActiveObject)enemy).isDead()) {
-				Log.d("GameScene","enemy isDead");
-				onKill();
-				removalEnemyList.add(enemy);
-				removalObjectList.add(enemy);
-			}
-		}*/
-		
-		for (Object enemy : enemyChar){
-			if (character.isOverlaid(enemy)){
-				character.onCollided(enemy);
-				if (character.isDead()){
-					life--;
-					onCharacterDead();
-					if(life<=0)
-						onGameOver();
-				}
-				if (((ActiveObject)enemy).isDead()){
-					onKill();
-					removalEnemyList.add(enemy);
-					removalObjectList.add(enemy);
-				}
-			}
-		}
-		for (Object enemy : enemyBullet){
-			if (character.isOverlaid(enemy)){
-				character.onCollided(enemy);
-				if ((character).isDead()){
-					life--;
-					onCharacterDead();
-					if(life<=0)
-						onGameOver();
-				}
-				if (((ActiveObject)enemy).isDead()){
-					onKill();
-					removalEnemyBulletList.add(enemy);
-					removalObjectList.add(enemy);
-				}
-			}
-		}
-
-		for (Object ally : allyBullet){
-			for (Object enemy : enemyChar){
-				if (ally.isOverlaid(enemy)){
-					((Object.CollisionListener)ally).onCollided(enemy);
-					if (((ActiveObject)ally).isDead()){
-						removalAllyBulletList.add(ally);
-						removalObjectList.add(ally);
-					}
-					if (((ActiveObject)enemy).isDead()){
-						onKill();
-						removalEnemyList.add(enemy);
-						removalObjectList.add(enemy);
-					}
-				}
+			} else if (o instanceof Bullet && isOffScreen(o)) {
+				(((ActiveObject)o).isEnemy() ? enemyBullet : allyBullet).remove(o);
+				removeObjects(o);
 			}
 		}
 		
-		for(Object o : removalObjectList)
-			objects.remove(o);
-		for(Object o : removalEnemyList)
-			enemyChar.remove(o);
-		for(Object o : removalAllyBulletList)
-			allyBullet.remove(o);
-		for(Object o : removalEnemyBulletList)
-			enemyBullet.remove(o);
+		// Enemy character handling
+		LinkedList<Character> removingEnemyChar = new LinkedList<Character>();
+		for (Character c : enemyChar)
+			if (c.isDead()) {
+				onEnemyKilled(c.getScore());
+				removingEnemyChar.add(c);
+				removeObjects(c);
+			}
+		for(Character c : removingEnemyChar)
+			enemyChar.remove(c);
 		
-		//enemy Generation
+		// Enemy bullet handling
+		LinkedList<Bullet> removingEnemyBullet = new LinkedList<Bullet>();
+		for (Bullet b : enemyBullet)
+			if (b.isDead()) {
+				removingEnemyBullet.add(b);
+				removeObjects(b);
+			}
+		for(Bullet b : removingEnemyBullet)
+			enemyBullet.remove(b);
+		
+		// Ally bullet handling
+		LinkedList<Bullet> removingAllyBullet = new LinkedList<Bullet>();
+		for (Bullet b : allyBullet)
+			if (b.isDead()) {
+				removingAllyBullet.add(b);
+				removeObjects(b);
+			}
+		for(Bullet b : removingAllyBullet)
+			allyBullet.remove(b);
+		
+		// Enemy Generation
 		timeInterval += Gdx.graphics.getDeltaTime();
 		if(timeInterval>=1) {
 			timeInterval = 0;
@@ -246,36 +184,12 @@ public class GameScene extends Scene {
 				addObjects(new Enemy01().setHoming(this.character, Math.PI/180));
 			}
 		}
-		((ValkyrieVF1A)(this.character)).shoot(this);
-		/*if (EnemyInterval * enemyCurrentInterval < timeInterval){
-			if (enemyChar.size() < maxEnemy){
-				//generate enemies
-				addObjects(new Enemy01().setHoming(this.character, Math.PI/180));
-			}
-			enemyCurrentInterval++;	
-		}*/
-		//bullet Generation
-		/*if (((ValkyrieVF1A)(this.character)).bulletInterval * ((ValkyrieVF1A)(this.character)).bulletShot < timeInterval){
-			((ValkyrieVF1A)(this.character)).shoot(this);
-		}*/
-		//timeInterval += Gdx.graphics.getDeltaTime();
+	}
+	
+	public boolean isOffScreen(Object obj) {
+		return Math.abs(obj.position.x) > maxX || Math.abs(obj.position.z) > maxZ;
 	}
 
-	@Override
-	public void onGameOver() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onKill() {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void onCharacterDead() {
-		// TODO Auto-generated method stub
-		
-	}
+	public void onEnemyKilled(int score) { /* override me! */ }
+	public void onCharacterDead() { /* override me! */ }
 }
