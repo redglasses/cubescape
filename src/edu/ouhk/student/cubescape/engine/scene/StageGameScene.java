@@ -107,7 +107,6 @@ public class StageGameScene extends Scene {
 		bg.scale.x = bg.scale.z = 2f;
 		bg.position.x = 800f;
 		bg.position.y = -250f;
-		//bg.position.z = -400f;
 		addObjects(bg);
 		
 		bossSpawnTimer = new Timer(BOSS_SPAWN_TIME, bossGeneration);
@@ -165,7 +164,8 @@ public class StageGameScene extends Scene {
 		}
 		
 		if(boss!=null && boss.isDead()) {
-			Log.d("StageGame","boss isDead");
+			onEnemyKilled(boss.getScore());
+			
 			stage++;
 			
 			enemyAttackIntervalMuplex *= stage%10>=5?.9f:1f;
