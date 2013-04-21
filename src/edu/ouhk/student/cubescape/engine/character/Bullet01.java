@@ -24,7 +24,7 @@ public class Bullet01 extends Bullet {
 			
 				"frame01",
 		}, 24f);
-		this.radius = 3;
+		this.radius = 5f;
 		this.movingStep = 40f;
 		
 		this.scale.x = this.scale.y = .001f;

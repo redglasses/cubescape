@@ -30,6 +30,7 @@ public class Enemy01 extends Character {
 		this.position.z = -350f;
 		
 		this.hitPoint = 20;
+		this.maxHitPoint = this.hitPoint;
 		this.setEnemy(true);
 		this.bulletInterval = 6f;
 	}
@@ -41,8 +42,7 @@ public class Enemy01 extends Character {
 			for (ActiveObject bullet : generateBullets()){
 				bullet.setEnemy(true);
 				((Bullet)bullet).move(this.movingAngle);
-				bullet.rotation.x = 1;
-				bullet.rotation.y = (float)((this.movingAngle + Math.PI + Math.PI/2) * 180 / Math.PI * -1);
+
 				scene.addObjects(bullet);
 				
 				bulletShot++;

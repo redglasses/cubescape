@@ -34,6 +34,7 @@ public class Boss01 extends Character {
 		this.score_bonus = 30;
 		this.radius = 50f;
 		this.hitPoint = 1000;
+		this.maxHitPoint = this.hitPoint;
 		this.setEnemy(true);
 		this.bulletInterval = 6f;
 	}

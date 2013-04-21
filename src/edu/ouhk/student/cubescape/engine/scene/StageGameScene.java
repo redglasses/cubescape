@@ -29,6 +29,11 @@ public class StageGameScene extends Scene {
 		public void run() {
 			boss = new Boss01();
 			bossSpawnTimer = null;
+			boss.bulletInterval = (float)(boss.bulletInterval * Math.pow(enemyAttackIntervalMuplex, stage));
+			boss.maxHitPoint = (int)Math.round(boss.maxHitPoint * Math.pow(enemyHpMuplex, stage));
+			boss.hitPoint = boss.maxHitPoint;
+			boss.setScore(boss.getScore() + stage);
+			((Boss01)boss).noOfBullets += stage;
 			addObjects(boss);
 		}
 	};
@@ -44,7 +49,7 @@ public class StageGameScene extends Scene {
 	
 	private int stage = 0;
 	
-	private float enemyHpMuplex = 1f;
+	private float enemyHpMuplex = 1.1f;
 	private float enemyAttackIntervalMuplex = .9f;
 	
 	private boolean bulletHoming = false;
@@ -168,10 +173,10 @@ public class StageGameScene extends Scene {
 			
 			stage++;
 			
-			enemyAttackIntervalMuplex *= stage%10>=5?.9f:1f;
-			enemyHpMuplex *= stage%10>=5?1f:1.1f;
+			//enemyAttackIntervalMuplex *= stage%10>=5?.9f:1f;
+			//enemyHpMuplex *= stage%10>=5?1f:1.1f;
 			
-			if(stage>=20)
+			if(stage>=10)
 				bulletHoming = true;
 			
 			enemyChar.remove(boss);
@@ -237,9 +242,13 @@ public class StageGameScene extends Scene {
 					if(bulletHoming) {
 						e.setHoming(this.character, Math.PI/180);
 					}
-					e.bulletInterval *= enemyAttackIntervalMuplex;
-					e.hitPoint *= enemyHpMuplex;
-					e.maxHitPoint *= enemyHpMuplex;
+					System.out.println(Math.round(e.maxHitPoint * Math.pow(enemyHpMuplex, stage)));
+					e.bulletInterval = (float)(e.bulletInterval * Math.pow(enemyAttackIntervalMuplex, stage));
+					e.maxHitPoint = (int) Math.round(e.maxHitPoint * Math.pow(enemyHpMuplex, stage));
+					e.hitPoint = e.maxHitPoint;
+
+					//e.maxHitPoint *= enemyHpMuplex * stage;
+					e.setScore(e.getScore() + stage);
 					addObjects(e);
 					//addObjects(Enemy01?new Enemy01().setHoming(this.character, Math.PI/180):new Enemy01());
 				}

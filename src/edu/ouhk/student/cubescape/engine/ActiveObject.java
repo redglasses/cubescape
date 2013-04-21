@@ -101,10 +101,11 @@ public abstract class ActiveObject extends Object{
 	
 	public void shoot(Scene scene){
 		timer += Gdx.graphics.getDeltaTime();
+		System.out.println(bulletInterval);
 		if(timer>=bulletInterval) {
 			timer = 0;
 			for (ActiveObject bullet : generateBullets()){
-				//bullet.setEnemy(true);
+				bullet.setEnemy(isEnemy);
 				//((Bullet)bullet).move(bullet.movingAngle);
 				
 				scene.addObjects(bullet);
