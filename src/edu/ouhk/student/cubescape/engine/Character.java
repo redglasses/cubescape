@@ -30,6 +30,10 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 		this.attackPower = 10;
 	}
 	
+	public int getScore() {
+		return this.score_bonus;
+	}
+	
 	@Override
 	public void create() {
 		super.create();
