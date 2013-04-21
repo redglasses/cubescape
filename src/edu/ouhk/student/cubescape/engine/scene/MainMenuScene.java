@@ -23,11 +23,7 @@ public class MainMenuScene extends Scene {
 					"stand21","stand22","stand23","stand24","stand25",
 					"stand26","stand27","stand28","stand29","stand30",
 					"stand31","stand32","stand33","stand34","stand35",
-					"stand36","stand37","stand38","stand39","stand40"/*,
-					"taunt01","taunt02","taunt03","taunt04","taunt05",
-					"taunt06","taunt07","taunt08","taunt09","taunt10",
-					"taunt11","taunt12","taunt13","taunt14","taunt15",
-					"taunt16","taunt17"*/
+					"stand36","stand37","stand38","stand39","stand40"
 			}, 12f);
 			position.z = -50f;
 			position.y = -5f;
@@ -45,11 +41,7 @@ public class MainMenuScene extends Scene {
 		super(mainChar);
 		this.backgroundColor = Color.BLACK;
 	}
-	
-	public Character getCharacter() {
-		return this.character;
-	}
-	
+
 	@Override
 	public void onCreate() {
 		super.onCreate();

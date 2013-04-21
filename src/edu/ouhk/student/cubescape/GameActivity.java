@@ -86,7 +86,9 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 	
 	public void gameOver() {
 		Application.ScoreBoard.addRecord(score);
-		startActivity(new Intent(this, MainActivity.class));
+		Intent i = new Intent(this, GameOverActivity.class);
+		i.putExtra(Application.ScoreBoard.DB_COL_SCORE, score);
+		startActivity(i);
 		exit();
 	}
 	
