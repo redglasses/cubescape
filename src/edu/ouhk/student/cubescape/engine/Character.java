@@ -116,4 +116,8 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 			
 			
 	}
+	public void setScore(int i) {
+		// TODO Auto-generated method stub
+		this.score_bonus = i;
+	}
 }
