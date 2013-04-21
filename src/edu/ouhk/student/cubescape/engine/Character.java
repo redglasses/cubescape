@@ -1,6 +1,8 @@
 package edu.ouhk.student.cubescape.engine;
 
-public abstract class Character extends ActiveObject implements Model.FrameChangeListener {	
+import android.util.Log;
+
+public abstract class Character extends ActiveObject implements Model.FrameChangeListener, Object.CollisionListener {	
 	public enum Direction {
 		UP,
 		DOWN,
@@ -93,6 +95,7 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 			position.x += movingStep * Math.cos(movingAngle);
 			position.z += movingStep * Math.sin(movingAngle);
 			onMoved();
+
 		}
 	}
 	
@@ -103,4 +106,16 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 	 * @return true means handled, false means unhandled.
 	 */
 	public abstract boolean onDirectionChange(Direction to);
+	
+	@Override
+	public void onCollided(Object object) {
+
+		if (this.isEnemy() != ((ActiveObject)object).isEnemy()){
+			Log.d("collied", "collied");
+			hitPoint -= ((ActiveObject)object).attackPower;
+			((ActiveObject) object).hitPoint -= this.attackPower;
+		}
+			
+			
+	}
 }

@@ -2,11 +2,15 @@ package edu.ouhk.student.cubescape.engine;
 
 import android.util.Log;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
-public abstract class ActiveObject extends Object implements Object.CollisionListener{
+public abstract class ActiveObject extends Object{
 
+	protected float bulletInterval = 0f;
+	protected long bulletShot = 0;
+	protected float timer = 0;
 	protected Character character;
 	protected boolean isHoming = false;
 	protected double movingAngle;
@@ -18,9 +22,15 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 	public boolean isDead(){
 		return hitPoint <= 0;
 	}
-	public boolean setEnemy(boolean isEnemy){
+	public ActiveObject setPosition(float x, float y, float z){
+		this.position.x = x;
+		this.position.y = y;
+		this.position.z = z;
+		return this;
+	}
+	public ActiveObject setEnemy(boolean isEnemy){
 		this.isEnemy = isEnemy;
-		return this.isEnemy;
+		return this;
 	}
 	public boolean isEnemy(){
 		return this.isEnemy;
@@ -50,13 +60,6 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 		super.render(program);
 	}
 	
-	@Override
-	public void onCollided(Object object){
-		if (object instanceof ActiveObject){
-			hitPoint -= ((ActiveObject)object).attackPower;
-			((ActiveObject) object).hitPoint -= this.attackPower;
-		}
-	}
 	public void update() {
 		model.update();
 	}
@@ -97,4 +100,22 @@ public abstract class ActiveObject extends Object implements Object.CollisionLis
 		return this;
 	}
 
+	
+	public void shoot(Scene scene){
+		timer += Gdx.graphics.getDeltaTime();
+		if(timer>=bulletInterval) {
+			timer = 0;
+			for (ActiveObject bullet : generateBullets()){
+				bullet.setEnemy(true);
+				((Bullet)bullet).move(this.movingAngle);
+				
+				scene.addObjects(bullet);
+				
+				bulletShot++;
+			}
+		}
+	}
+	public ActiveObject[] generateBullets(){
+		return new ActiveObject[0];
+	}
 }
