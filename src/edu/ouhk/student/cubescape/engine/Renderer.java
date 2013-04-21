@@ -23,6 +23,8 @@ public abstract class Renderer implements ApplicationListener {
 		public void render(ShaderProgram program);
 	}
 
+	public boolean isPaused = false;
+	
 	protected LinkedList<RenderingListener> renderingListeners;
 	
 	public Renderer() {
@@ -45,6 +47,7 @@ public abstract class Renderer implements ApplicationListener {
 
 	@Override
 	public void create() {
+		resume();
 		for(RenderingListener o : renderingListeners)
 			o.onCreate();
 	}
@@ -59,6 +62,7 @@ public abstract class Renderer implements ApplicationListener {
 
 	@Override
 	public void pause() {
+		isPaused = true;
 		for(RenderingListener o : renderingListeners)
 			o.onPause();
 	}
@@ -71,6 +75,7 @@ public abstract class Renderer implements ApplicationListener {
 
 	@Override
 	public void resume() {
+		isPaused = false;
 		for(RenderingListener o : renderingListeners)
 			o.onResume();
 	}

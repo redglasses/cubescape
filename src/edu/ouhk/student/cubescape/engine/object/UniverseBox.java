@@ -5,6 +5,6 @@ import edu.ouhk.student.cubescape.engine.Object;
 
 public class UniverseBox extends Object {
 	public UniverseBox() {
-		super(R.raw.model_box, R.drawable.texture_universe);
+		super(R.raw.model_box, R.drawable.texture_universe3);
 	}
 }

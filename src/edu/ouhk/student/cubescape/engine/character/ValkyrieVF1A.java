@@ -77,7 +77,6 @@ public class ValkyrieVF1A extends Character {
 				case DOWN_LEFT:
 				case DOWN_RIGHT:
 					this.model.playAnimtion(runMotion);
-					System.out.println("to_DOWN");
 					break;
 				}
 				break;
@@ -91,7 +90,6 @@ public class ValkyrieVF1A extends Character {
 				case UP_RIGHT:
 				case UP:
 					this.model.playAnimtion(standMotion);
-					System.out.println("to_UP");
 					break;
 				}
 				break;

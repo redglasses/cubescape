@@ -32,9 +32,10 @@ public class Boss01 extends Character {
 		//this.position.x = (float)(Math.random() * 500 - 250);
 		this.position.z = -350f;
 		this.score_bonus = 30;
-		this.hitPoint = 200;
+		this.radius = 50f;
+		this.hitPoint = 1000;
 		this.setEnemy(true);
-		this.bulletInterval = 1f;
+		this.bulletInterval = 6f;
 	}
 	
 	/*public void shoot(Scene scene){
@@ -104,6 +105,7 @@ public class Boss01 extends Character {
 		if (!firstEntered){
 			if (entered()){
 				firstEntered = true;
+				movingAngle = Math.random() * Math.PI ;
 			}
 		}else{
 			if (this.position.z > 0 || this.position.z < -300){

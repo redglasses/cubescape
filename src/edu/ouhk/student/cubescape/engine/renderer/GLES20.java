@@ -61,6 +61,7 @@ public class GLES20 extends Renderer {
 
 	@Override
 	public void render() {
+		if (!isPaused) {
 		Gdx.gl20.glEnable(GL20.GL_DEPTH_TEST);
 	    Gdx.gl20.glClear(GL20.GL_DEPTH_BUFFER_BIT | GL20.GL_COLOR_BUFFER_BIT);
 	    
@@ -74,5 +75,6 @@ public class GLES20 extends Renderer {
 	    
 	    for(RenderingListener o : renderingListeners)
 			o.onPostRender();
+		}
 	}
 }

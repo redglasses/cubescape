@@ -1,14 +1,12 @@
 package edu.ouhk.student.cubescape.engine;
 
-import android.util.Log;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public abstract class ActiveObject extends Object{
 
-	protected float bulletInterval = 0f;
+	public float bulletInterval = 0f;
 	protected long bulletShot = 0;
 	protected float timer = 0;
 	protected Character character;

@@ -60,6 +60,13 @@
                 <action android:name="android.intent.action.RUN"/>
             </intent-filter>
         </activity>
+        <activity
+            android:name="edu.ouhk.student.cubescape.GameOverActivity"
+            android:enabled="true"
+            android:screenOrientation="portrait" >
+            <intent-filter>
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

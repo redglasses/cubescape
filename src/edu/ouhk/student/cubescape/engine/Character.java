@@ -109,9 +109,7 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 	
 	@Override
 	public void onCollided(Object object) {
-
 		if (this.isEnemy() != ((ActiveObject)object).isEnemy()){
-			Log.d("collied", "collied");
 			hitPoint -= ((ActiveObject)object).attackPower;
 			((ActiveObject) object).hitPoint -= this.attackPower;
 		}

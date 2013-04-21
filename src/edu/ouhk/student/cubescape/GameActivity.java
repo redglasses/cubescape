@@ -17,13 +17,15 @@ import com.badlogic.gdx.backends.android.AndroidApplication;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.ouhk.student.cubescape.engine.Factory;
+import edu.ouhk.student.cubescape.engine.Renderer;
 import edu.ouhk.student.cubescape.engine.Scene;
 import edu.ouhk.student.cubescape.engine.renderer.GLES20;
-import edu.ouhk.student.cubescape.engine.scene.GameScene;
+import edu.ouhk.student.cubescape.engine.scene.*;
 
 public class GameActivity extends AndroidApplication implements InputProcessor {
 	private static final int pointerOffset = 2;
 	
+	private Renderer renderer;
 	private Scene game;
 	private Vector2 touchedAt;
 	private Music bgMusic;
@@ -31,13 +33,17 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 	private int score = 0;
 	private int life = 3;
 	
+	public boolean isEnableMusic() {
+		return Application.Preferences.get().getBoolean(getResources().getString(R.string.pref_music_id), true);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_game);
 		
 		((RelativeLayout)findViewById(R.id.game_view)).addView(
-				initializeForView(new GLES20(game = new GameScene(){
+				initializeForView(renderer = new GLES20(game = new StageGameScene(){
 					@Override
 					public void onEnemyKilled(final int score) {
 						runOnUiThread(new Runnable(){
@@ -65,8 +71,10 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		((TextView)findViewById(R.id.txt_score)).setText(""+score);
 		((RatingBar)findViewById(R.id.txt_life_bar)).setRating(life);
 		
-		
 		bgMusic = Gdx.audio.newMusic(files.internal("audio/imagine.mp3"));
+		bgMusic.setLooping(true);
+		bgMusic.setVolume(0);
+		bgMusic.play();
 		
 		getInput().setInputProcessor(this);
 	}
@@ -95,16 +103,32 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 	@Override
 	public void onPause() {
 		super.onPause();
-		bgMusic.pause();
+		bgMusic.setVolume(0);
+		renderer.pause();
 	}
 	
 	@Override
 	public void onResume() {
 		super.onResume();
-		if(Application.Preferences.get().getBoolean(getResources().getString(R.string.pref_music_id), true))
-			bgMusic.play();
 		Factory.cleanTextureCache();
+		if (isEnableMusic()) bgMusic.setVolume(1);
+		renderer.resume();
 	}
+	
+	@Override
+	public void onStop() {
+		super.onStop();
+		bgMusic.setVolume(0);
+		renderer.pause();
+	}
+	
+	@Override
+	public void onRestart() {
+		super.onRestart();
+		if (isEnableMusic()) bgMusic.setVolume(1);
+		renderer.resume();
+	}
+	
 	
 	@Override
 	public void onBackPressed() {
@@ -124,8 +148,25 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 			startActivity(new Intent(this, MainActivity.class));
 			exit();
 			break;
+		case R.id.btn_game_options:
+			startActivity(new Intent(this, SettingsActivity.class));
+			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		bgMusic.setVolume(0);
+		renderer.pause();
+		return super.onPrepareOptionsMenu(menu);
+	}
+	
+	@Override
+	public void onOptionsMenuClosed(Menu menu) {
+		super.onOptionsMenuClosed(menu);
+		if (isEnableMusic()) bgMusic.setVolume(1);
+		renderer.resume();
 	}
 	
 	@Override

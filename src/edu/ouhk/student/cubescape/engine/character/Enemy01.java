@@ -34,7 +34,7 @@ public class Enemy01 extends Character {
 		this.bulletInterval = 6f;
 	}
 	
-	/*public void shoot(Scene scene){
+	public void shoot(Scene scene){
 		timer += Gdx.graphics.getDeltaTime();
 		if(timer>=bulletInterval) {
 			timer = 0;
@@ -48,8 +48,8 @@ public class Enemy01 extends Character {
 				bulletShot++;
 			}
 		}
+	}
 	
-	}*/
 	public ActiveObject[] generateBullets(){
 		float x = (float)(10 * Math.sin(this.movingAngle));
 		float z = (float)(10 * Math.cos(this.movingAngle));
