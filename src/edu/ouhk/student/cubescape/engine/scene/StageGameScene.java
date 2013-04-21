@@ -29,11 +29,6 @@ public class StageGameScene extends Scene {
 		public void run() {
 			boss = new Boss01();
 			bossSpawnTimer = null;
-			boss.bulletInterval *= enemyAttackIntervalMuplex;
-			boss.hitPoint *= enemyHpMuplex;
-			boss.maxHitPoint *= enemyHpMuplex;
-			boss.setScore(boss.getScore() + stage);
-			((Boss01)boss).noOfBullets += stage;
 			addObjects(boss);
 		}
 	};
@@ -80,7 +75,7 @@ public class StageGameScene extends Scene {
 				}
 			}
 		});
-		character.position.z = 200f;
+
 		enemyChar = new LinkedList<Character>();
 		allyBullet = new LinkedList<Bullet>();
 		enemyBullet = new LinkedList<Bullet>();
@@ -173,10 +168,10 @@ public class StageGameScene extends Scene {
 			
 			stage++;
 			
-			enemyAttackIntervalMuplex *= .9f;//stage%10>=5?.9f:1f;
-			enemyHpMuplex *= 1.1f;//stage%10>=5?1f:1.1f;
+			enemyAttackIntervalMuplex *= stage%10>=5?.9f:1f;
+			enemyHpMuplex *= stage%10>=5?1f:1.1f;
 			
-			if(stage>=10)
+			if(stage>=20)
 				bulletHoming = true;
 			
 			enemyChar.remove(boss);
@@ -245,7 +240,6 @@ public class StageGameScene extends Scene {
 					e.bulletInterval *= enemyAttackIntervalMuplex;
 					e.hitPoint *= enemyHpMuplex;
 					e.maxHitPoint *= enemyHpMuplex;
-					e.setScore(e.getScore() + stage);
 					addObjects(e);
 					//addObjects(Enemy01?new Enemy01().setHoming(this.character, Math.PI/180):new Enemy01());
 				}

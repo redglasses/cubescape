@@ -71,10 +71,10 @@ public class Bullet01 extends Bullet {
 		/*this.scale.x = 0.1f;
 		this.scale.y = 0.1f;
 		this.scale.z = 0.5f;*/
-		this.movingStep = 50f;
+		this.movingStep = 20f;
 		
 		this.scale.x = this.scale.y = .001f;
-		this.scale.z = .025f;
+		this.scale.z = .006f;
 		//this.rotation.y = 180f;
 		//this.move(Direction.LEFT);
 		//this.stand();

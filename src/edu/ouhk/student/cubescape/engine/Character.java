@@ -35,9 +35,6 @@ public abstract class Character extends ActiveObject implements Model.FrameChang
 	public int getScore() {
 		return this.score_bonus;
 	}
-	public void setScore(int newScore){
-		this.score_bonus = newScore;
-	}
 	
 	@Override
 	public void create() {
