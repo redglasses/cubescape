@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -14,6 +13,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.backends.android.AndroidApplication;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Vector2;
 
 import edu.ouhk.student.cubescape.engine.Factory;
@@ -37,6 +37,10 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		return Application.Preferences.get().getBoolean(getResources().getString(R.string.pref_music_id), true);
 	}
 	
+	public boolean isEnableSoundEffect() {
+		return Application.Preferences.get().getBoolean(getResources().getString(R.string.pref_sound_id), true);
+	}
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,10 +49,21 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		((RelativeLayout)findViewById(R.id.game_view)).addView(
 				initializeForView(renderer = new GLES20(game = new StageGameScene(){
 					@Override
+					public void onCreate() {
+						super.onCreate();
+						stageStep = Integer.parseInt(Application.Preferences.get().getString(getResources().getString(R.string.pref_game_difficulties), "1"));
+					}
+					
+					@Override
 					public void onEnemyKilled(final int score) {
 						runOnUiThread(new Runnable(){
 							@Override
 							public void run() {
+								if(isEnableSoundEffect()) {
+									Music boom = Gdx.audio.newMusic(files.internal("audio/boom.mp3"));
+									boom.setVolume(.5f);
+									boom.play();
+								}
 								addScore(score);
 							}
 						});
@@ -113,6 +128,7 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 		Factory.cleanTextureCache();
 		if (isEnableMusic()) bgMusic.setVolume(1);
 		renderer.resume();
+		Texture.invalidateAllTextures(this);
 	}
 	
 	@Override

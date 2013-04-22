@@ -2,7 +2,7 @@
 <resources>
     <string name="app_name">Cubescape</string>
     <string name="app_version_name">1.0</string>
-	<string name="new_game">New Game</string>
+	<string name="new_game">新遊戲</string>
 	<string name="score_board">Score Board</string>
 	<string name="options">Options</string>
 	<string name="about">About Cubescape</string>
@@ -23,29 +23,10 @@ We create worlds.</string>
 	<string name="pref_music_title">Background music</string>
 	<string name="pref_music_decs">Background music toggle</string>
 	
-	<string name="pref_game_settings">Game Settings</string>
-	<string name="pref_game_difficulties">pref_difficulties</string>
-	<string name="pref_game_difficulties_title">Difficulties</string>
-	<string name="pref_game_difficulties_decs">Change difficulties level</string>
-	
 	<string name="score">Score</string>
 	<string name="life">Life</string>
 	
 	<string name="game_is_over">Gameover!
 You got %d score.</string>
 	<string name="retry">Retry</string>
-	
-	<string-array name="game_difficulties">
-	    <item>Casual</item>
-	    <item>Normal</item>
-	    <item>Hard</item>
-	    <item>Die Hard</item>
-	</string-array>
-	
-	<string-array name="game_difficulties_level">
-	    <item>1</item>
-	    <item>2</item>
-	    <item>5</item>
-	    <item>10</item>
-	</string-array>
 </resources>

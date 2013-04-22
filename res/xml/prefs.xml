@@ -14,4 +14,15 @@
 	        android:summary="@string/pref_music_decs"
 	        android:defaultValue="true" />
     </PreferenceCategory>
+    <PreferenceCategory 
+        android:title="@string/pref_game_settings"
+        android:key="pref_key_game_settings">
+    	<ListPreference
+			android:key="pref_difficulties"
+			android:title="@string/pref_game_difficulties_title"
+	        android:summary="@string/pref_game_difficulties_decs"
+	        android:entries="@array/game_difficulties"
+	        android:entryValues="@array/game_difficulties_level"
+    	    />
+    </PreferenceCategory>
 </PreferenceScreen>

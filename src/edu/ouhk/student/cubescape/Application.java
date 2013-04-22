@@ -9,6 +9,7 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 
 public class Application extends android.app.Application {
 	public static final String DB_NAME = "CubescapeDb";
@@ -85,9 +86,8 @@ public class Application extends android.app.Application {
 	}
 	
 	public static class Preferences {
-		public static final String NAME = "CubescapePrefs";
 		public static SharedPreferences get() {
-			return Application.getContext().getSharedPreferences(NAME, 0);
+			return PreferenceManager.getDefaultSharedPreferences(Application.getContext());
 		}
 	}
 }

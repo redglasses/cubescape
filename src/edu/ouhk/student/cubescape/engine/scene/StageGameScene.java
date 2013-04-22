@@ -48,6 +48,7 @@ public class StageGameScene extends Scene {
 	private Character boss;
 	
 	private int stage = 0;
+	protected int stageStep = 1;
 	
 	private float enemyHpMuplex = 1.1f;
 	private float enemyAttackIntervalMuplex = .9f;
@@ -171,7 +172,7 @@ public class StageGameScene extends Scene {
 		if(boss!=null && boss.isDead()) {
 			onEnemyKilled(boss.getScore());
 			
-			stage++;
+			stage += stageStep;
 			
 			//enemyAttackIntervalMuplex *= stage%10>=5?.9f:1f;
 			//enemyHpMuplex *= stage%10>=5?1f:1.1f;
