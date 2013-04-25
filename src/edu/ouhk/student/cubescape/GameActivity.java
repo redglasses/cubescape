@@ -23,7 +23,8 @@ import edu.ouhk.student.cubescape.engine.renderer.GLES20;
 import edu.ouhk.student.cubescape.engine.scene.*;
 
 public class GameActivity extends AndroidApplication implements InputProcessor {
-	private static final int pointerOffset = 2;
+	private static final int pointerOffset = 10;
+	private static final int DEFAULT_POINTER = 5;
 	
 	private Renderer renderer;
 	private Scene game;
@@ -219,13 +220,25 @@ public class GameActivity extends AndroidApplication implements InputProcessor {
 
 	@Override
 	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		pointer = DEFAULT_POINTER;
+		Log.d("Game","screenX = "+screenX+", screenY = "+screenY+", pointer = "+pointer);
 		if(touchedAt!=null){
-			if(touchedAt.y != screenY && touchedAt.x != screenX
-					&& Math.abs(screenY - touchedAt.y) > pointer * pointerOffset
-					&& Math.abs(screenX - touchedAt.x) > pointer * pointerOffset)
+			float dy = Math.abs(screenY - touchedAt.y);
+			float dx = Math.abs(screenX - touchedAt.x);
+			double dd = Math.sqrt((dy*dy) + (dx*dx));
+			Log.d("Game","dx = "+dx+", dy = "+dy);
+			
+			if (touchedAt.y != screenY && touchedAt.x != screenX && dd > pointer) {
+				float d;
+				if(dd > pointer * pointerOffset) d = 1f;
+				else d = (float)(dd / (pointer * pointerOffset));
+				StageGameScene.accl = d;
+				//((StageGameScene)game).accl = d;
+				
 				synchronized(game.getCharacter()){
 					game.getCharacter().move(Math.atan2(screenY - touchedAt.y, screenX - touchedAt.x));
 				}
+			}
 		}
 		return true;
 	}

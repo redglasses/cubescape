@@ -55,6 +55,8 @@ public class StageGameScene extends Scene {
 	
 	private boolean bulletHoming = false;
 	
+	public static float accl = 1f;
+	
 	public StageGameScene() {
 		super(new ValkyrieVF1A(){
 			@Override
@@ -66,15 +68,16 @@ public class StageGameScene extends Scene {
 			@Override
 			public void onFrameChange() {
 				if(isMoving){
-					position.x += movingStep * Math.cos(movingAngle);
-					position.z += movingStep * Math.sin(movingAngle);
+					//Log.d("distense",  ""+movingStep * accl);
+					position.x += movingStep * accl * Math.cos(movingAngle);
+					position.z += movingStep * accl * Math.sin(movingAngle);
 					
 					if(Math.abs(position.x) >= maxX - 100) {
-						position.x -= movingStep * Math.cos(movingAngle);
+						position.x -= movingStep * accl * Math.cos(movingAngle);
 					}
 					
 					if(Math.abs(position.z) >= maxZ - 100) {
-						position.z -= movingStep * Math.sin(movingAngle);
+						position.z -= movingStep * accl * Math.sin(movingAngle);
 					}
 					
 					onMoved();
@@ -243,7 +246,7 @@ public class StageGameScene extends Scene {
 					if(bulletHoming) {
 						e.setHoming(this.character, Math.PI/180);
 					}
-					System.out.println(Math.round(e.maxHitPoint * Math.pow(enemyHpMuplex, stage)));
+					//System.out.println(Math.round(e.maxHitPoint * Math.pow(enemyHpMuplex, stage)));
 					e.bulletInterval = (float)(e.bulletInterval * Math.pow(enemyAttackIntervalMuplex, stage));
 					e.maxHitPoint = (int) Math.round(e.maxHitPoint * Math.pow(enemyHpMuplex, stage));
 					e.hitPoint = e.maxHitPoint;
